@@ -1,16 +1,21 @@
 #ifndef PARSER_HPP
 # define PARSER_HPP
 
+
+/*-----------STANDARD LIBRARIES-----------*/
 # include <stack>
 
+/*--------------HEADER FILES--------------*/
 # include "webserv.hpp"
 # include "server.hpp"
 # include "utils.hpp"
 
 using namespace wb;
 
+/*-----------------ALIASES-----------------*/
 typedef std::vector<Server *>::iterator serv_it;
 
+/*---------------PARSER CLASS---------------*/
 class Parser {
 	public:
 		Parser(const std::string& filename);

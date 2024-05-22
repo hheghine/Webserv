@@ -7,6 +7,13 @@
 class Server : public AServer {
 	public:
 		Server();
+
+	public:
+		enum vars {
+			INDEX = 105,
+			ROOT = 114,
+			METHODS = 109
+		};
 };
 
 #endif

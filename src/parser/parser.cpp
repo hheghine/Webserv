@@ -77,17 +77,36 @@ void Parser::parse_server_block(std::ifstream& file)
 			_brackets.pop();
 			continue ;
 		}
-		if (vec[0] == "index")
+
+		bool match = false;
+
+		switch (vec[0][0])
 		{
-			serv->set_index(vec);
-			continue ;
+			case Server::INDEX :
+				if (vec[0] == "index")
+				{
+					match = true;
+					serv->set_index(vec);
+				}
+				break;
+			case Server::ROOT :
+				if (vec[0] == "root")
+				{
+					match = true;
+					serv->set_root(vec);
+				}
+				break ;
+			case Server::METHODS :
+				if (vec[0] == "methods")
+				{
+					match = true;
+					serv->set_methods(vec);
+				}
+				break ;
+			default:
+				if (!match)
+					throw std::runtime_error("syntax error: " + line);
 		}
-		if (vec[0] == "root")
-		{
-			serv->set_root(vec);
-			continue ;
-		}
-		throw std::runtime_error("syntax error: " + line);
 	}
 	if (!_brackets.empty())
 		throw std::invalid_argument("syntax error: mismatched or missing bracket");

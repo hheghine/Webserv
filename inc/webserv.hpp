@@ -16,7 +16,6 @@
 # include <sys/socket.h>
 
 /*--------------HEADER FILES--------------*/
-
 # include "utils.hpp"
 
 
@@ -40,7 +39,6 @@ const char* const MAIN = "\033[38;2;153;255;102m";
 const char* const CRST = "\033[0m";
 
 /*-----------------ALIASES-----------------*/
-
 typedef std::string::iterator								string_it;
 typedef	std::string::const_iterator							string_const_it;
 typedef std::vector<std::string>							svector;
@@ -48,13 +46,7 @@ typedef std::vector<std::string>::iterator					svector_it;
 typedef std::vector<std::string>::const_iterator			svector_const_it;
 
 /*------------GLOBAL VARIABLES------------*/
-
 extern std::string g_error;
-
-inline static void	displayError(const std::string& message)
-{
-	std::cout << RED << "[ ✘ ] " << message << std::endl;
-}
 
 inline static void	usage()
 {
