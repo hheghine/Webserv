@@ -35,9 +35,9 @@ UTILS_DIR	= $(SRCS_DIR)utils/
 CORE_DIR	= $(SRCS_DIR)core/
 
 SRC_FILES	= $(SRCS_DIR)main.cpp \
-#				$(addprefix $(PARSER_DIR), ) \
-#				$(addprefix $(UTILS_DIR), ) \
-#				$(addprefix $(CORE_DIR), )
+				$(addprefix $(CORE_DIR), a_server.cpp server.cpp) \
+				$(addprefix $(UTILS_DIR), utils.cpp) \
+				$(addprefix $(PARSER_DIR), parser.cpp)
 
 INCLUDES	=	-Iinc \
 					-Iinc/parser \
@@ -45,7 +45,7 @@ INCLUDES	=	-Iinc \
 					-Iinc/core \
 
 CXX			= @c++
-CXXFLAGS 	= -g3 -Wall -Wextra -Werror -std=c++98 $(INCLUDES)
+CXXFLAGS 	= -g3 -Wall -Wextra -Werror -std=c++98 $(INCLUDES) -fsanitize=address
 
 
 OBJS_DIR	= .objects
@@ -57,6 +57,7 @@ all : $(NAME)
 
 $(NAME) : $(OBJS_DIR) $(OBJS) Makefile
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+	@printf "$(COLOR_6)%15s Compilation of $(END)$(WHITE)$(NAME)$(COLOR_6) terminated $(END)$(WHITE)$(BLINK)[$(COLOR_6)$(BLINK)success$(BLINK)$(WHITE)]$(END)\n\n"
 	
 $(OBJS_DIR) :
 	@$(PRINT_NAME)
@@ -76,12 +77,9 @@ $(OBJS_DIR) :
 	@sleep 0.1
 	@printf "$(COLOR_6)%21s Creating $(END)$(WHITE)$(OBJS_DIR)/$(CORE_DIR)...\n"
 	@mkdir -p $(OBJS_DIR)/$(CORE_DIR)
-	@sleep 0.1
-	@printf "$(COLOR_6)%15s Compilation of $(END)$(WHITE)$(NAME)$(COLOR_6) terminated $(END)$(WHITE)$(BLINK)[$(COLOR_6)$(BLINK)success$(BLINK)$(WHITE)]$(END)\n\n"
 
 $(OBJS) : $(OBJS_DIR)/%.o : %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-
 
 clean :
 	@rm -rf $(OBJS_DIR)

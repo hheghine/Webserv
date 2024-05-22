@@ -15,13 +15,12 @@
 # include <sys/epoll.h>
 # include <sys/socket.h>
 
-typedef std::string::iterator								string_it;
-typedef	std::string::const_iterator							cstring_it;
-typedef std::vector<std::string>							vstring;
-typedef std::vector<std::string>::iterator					vstring_it;
-typedef std::vector<std::string>::const_iterator			cvstring_it;
+/*--------------HEADER FILES--------------*/
 
-namespace webserv
+# include "utils.hpp"
+
+
+namespace wb
 {
 
 /*------------COLOR CONSTANTS------------*/
@@ -40,6 +39,18 @@ const char* const MAIN = "\033[38;2;153;255;102m";
 
 const char* const CRST = "\033[0m";
 
+/*-----------------ALIASES-----------------*/
+
+typedef std::string::iterator								string_it;
+typedef	std::string::const_iterator							string_const_it;
+typedef std::vector<std::string>							svector;
+typedef std::vector<std::string>::iterator					svector_it;
+typedef std::vector<std::string>::const_iterator			svector_const_it;
+
+/*------------GLOBAL VARIABLES------------*/
+
+extern std::string g_error;
+
 inline static void	displayError(const std::string& message)
 {
 	std::cout << RED << "[ ✘ ] " << message << std::endl;
@@ -48,9 +59,9 @@ inline static void	displayError(const std::string& message)
 inline static void	usage()
 {
 	std::cout << BWHT << MAIN << "\t+-------------------------------------------------------+\n" << "\t|" \
-			<< webserv::BWHT << "\t\tUsage: " << MAIN << "./webserv [config file]" \
+			<< BWHT << "\t\tUsage: " << MAIN << "./webserv [config file]" \
 			<< "\t\t|\n" << "\t+-------------------------------------------------------+" \
-			<< webserv::CRST << std::endl;
+			<< CRST << std::endl;
 }
 
 }
