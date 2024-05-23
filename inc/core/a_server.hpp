@@ -16,6 +16,7 @@ class AServer {
 		bool	_post;
 		bool	_delete;
 		bool	_autoindex;
+
 		std::vector<AServer* >	_locations;
 
 	public:
@@ -25,8 +26,8 @@ class AServer {
 		void	set_root(const svector& line);
 		void	set_index(const svector& line);
 		void	set_methods(const svector& line);
+		void	set_autoindex(const svector& line);
 		// void	set_error_pages(const svector& line);
-		// void	set_autoindex(const svector& line);
 		// void	set_location(const svector& vec);
 
 };

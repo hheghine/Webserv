@@ -18,6 +18,7 @@ class Server : public AServer {
 			LISTEN = 108,
 			INDEX = 105,
 			ROOT = 114,
+			AUTOINDEX = 97,
 			METHODS = 109
 		};
 

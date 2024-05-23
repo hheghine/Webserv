@@ -85,3 +85,18 @@ void AServer::set_methods(const svector& line)
 		}
 	}
 }
+
+void AServer::set_autoindex(const svector& line)
+{
+	svector_const_it it = line.begin() + 1;
+
+	if (it == line.end() || it + 1 != line.end())
+		throw std::invalid_argument("syntax error: " + line.at(0));
+
+	if (*it == "on" || *it == "ON")
+		_autoindex = true;
+	else if (*it == "off" || *it == "OFF")
+		_autoindex = false;
+	else
+		throw std::invalid_argument("syntax error: unknown character: " + *it);
+}

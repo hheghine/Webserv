@@ -102,12 +102,19 @@ void Parser::parse_server_block(std::ifstream& file)
 					match = true;
 					serv->set_index(vec);
 				}
-				break;
+				break ;
 			case Server::ROOT :
 				if (vec[0] == "root")
 				{
 					match = true;
 					serv->set_root(vec);
+				}
+				break ;
+			case Server::AUTOINDEX :
+				if (vec[0] == "autoindex")
+				{
+					match = true;
+					serv->set_autoindex(vec);
 				}
 				break ;
 			case Server::METHODS :
