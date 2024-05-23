@@ -82,6 +82,20 @@ void Parser::parse_server_block(std::ifstream& file)
 
 		switch (vec[0][0])
 		{
+			case Server::SERVER_NAME :
+				if (vec[0] == "server_name")
+				{
+					match = true;
+					serv->set_server_name(vec);
+				}
+				break ;
+			case Server::LISTEN :
+				if (vec[0] == "listen")
+				{
+					match = true;
+					serv->set_ports(vec);
+				}
+				break ;
 			case Server::INDEX :
 				if (vec[0] == "index")
 				{

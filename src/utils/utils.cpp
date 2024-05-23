@@ -27,3 +27,15 @@ svector utils::split_line(const std::string& line)
 		vec.push_back(word);
 	return vec;
 }
+
+int utils::to_int(const std::string& line)
+{
+	std::stringstream ss(line);
+	int val = 0;
+	char remaining;
+
+	if (!(ss >> val) || ss.get(remaining) || \
+	val < 0 || val > 65535)
+		throw std::invalid_argument("invalid port: " + line);
+	return val;
+}

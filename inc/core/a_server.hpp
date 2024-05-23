@@ -12,10 +12,10 @@ class AServer {
 		std::string	_root;
 		std::string	_index;
 		// svector		_error_pages;
-		bool _get;
-		bool _post;
-		bool _delete;
-		bool _autoindex;
+		bool	_get;
+		bool	_post;
+		bool	_delete;
+		bool	_autoindex;
 		std::vector<AServer* >	_locations;
 
 	public:

@@ -16,6 +16,7 @@ namespace utils
 bool	file_exists(const std::string& filename);
 bool	is_directory(const std::string& path);
 svector split_line(const std::string& line);
+int		to_int(const std::string& line);
 
 };
 
