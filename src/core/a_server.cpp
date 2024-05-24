@@ -20,7 +20,7 @@ void AServer::set_root(const svector& line)
 {
 	svector_const_it it = line.begin() + 1;
 
-	if (it + 1 != line.end())
+	if (line.size() != 2)
 	{
 		g_error = "root: syntax error";
 		return ;
@@ -90,7 +90,7 @@ void AServer::set_autoindex(const svector& line)
 {
 	svector_const_it it = line.begin() + 1;
 
-	if (it == line.end() || it + 1 != line.end())
+	if (line.size() != 2)
 		throw std::invalid_argument("syntax error: " + line.at(0));
 
 	if (*it == "on" || *it == "ON")
