@@ -12,8 +12,16 @@ class Location : public AServer {
 		Location();
 
 	public:
+		enum vars {
+			INDEX = 105,
+			AUTOINDEX = 97,
+			METHODS = 109,
+			REDIRECTION = 114
+		};
+
+	public:
 		void set_modifier(const svector& line);
-		// void set_redirection(const svector& line);
+		void set_redirection(const svector& line);
 
 };
 

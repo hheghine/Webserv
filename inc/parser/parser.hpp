@@ -8,6 +8,7 @@
 /*--------------HEADER FILES--------------*/
 # include "webserv.hpp"
 # include "server.hpp"
+# include "location.hpp"
 # include "utils.hpp"
 
 using namespace wb;
@@ -22,12 +23,13 @@ class Parser {
 		~Parser();
 
 	private:
-		std::stack<char> _brackets;
-		std::vector<Server *> _servers;
+		std::stack<char> 		_brackets;
+		std::vector<Server *>	_servers;
 	
 	private:
 		void lets_go(const std::string& filename);
 		void parse_server_block(std::ifstream& file);
+		void parse_location_block(std::ifstream& file, const svector& location_vec, Location* location);
 };
 
 
