@@ -39,6 +39,9 @@ void Parser::lets_go(const std::string& filename)
 		if (vec.size() <= 2 && \
 		(vec.at(0) == "server" || vec.at(0) == "server{"))
 		{
+			if (vec.size() > 1 && vec.at(1) != "{")
+				throw std::invalid_argument("syntax error: " + line);
+
 			if ((vec.size() == 1 && vec.at(0).find("{") != std::string::npos) \
 			|| (vec.size() == 2 && vec.at(1) == "{"))
 				_brackets.push('{');
@@ -57,8 +60,8 @@ void Parser::parse_server_block(std::ifstream& file)
 
 	while (std::getline(file, line))
 	{
-		if (!g_error.empty())
-			throw std::runtime_error(g_error);
+		// if (!g_error.empty())
+		// 	throw std::runtime_error(g_error);
 
 		svector vec = utils::split_line(line);
 
@@ -74,6 +77,9 @@ void Parser::parse_server_block(std::ifstream& file)
 		}
 		if (vec.at(0) == "}" && vec.size() == 1)
 		{
+			if (_brackets.empty())
+				throw std::invalid_argument("syntax error: mismatched or missing bracket");
+
 			_brackets.pop();
 			if (_brackets.empty())
 				return ;
@@ -133,10 +139,9 @@ void Parser::parse_server_block(std::ifstream& file)
 					serv->set_methods(vec);
 				}
 				break ;
-			default :
-				if (!match)
-					throw std::runtime_error("syntax error: " + line);
 		}
+		if (!match)
+			throw std::runtime_error("syntax error: " + line);
 	}
 	if (!_brackets.empty())
 		throw std::invalid_argument("syntax error: mismatched or missing bracket");
@@ -144,7 +149,6 @@ void Parser::parse_server_block(std::ifstream& file)
 
 void Parser::parse_location_block(std::ifstream& file, const svector& location_vec, Location* location)
 {
-
 	location->set_modifier(location_vec);
 
 	bool opened = false;
@@ -160,16 +164,18 @@ void Parser::parse_location_block(std::ifstream& file, const svector& location_v
 
 	while (std::getline(file, line))
 	{
-		if (!g_error.empty())
-			throw std::runtime_error(g_error);
+		// if (!g_error.empty())
+		// 	throw std::runtime_error(g_error);
 
 		svector vec = utils::split_line(line);
 
 		if (vec.empty() || vec.at(0)[0] == '#')
 			continue ;
 
-		if (vec.at(0) == "{" && !opened)
+		if (vec.at(0) == "{")
 		{
+			if (opened)
+				throw std::invalid_argument("syntax error: mismatched or missing bracket");
 			opened = true;
 			if (vec.size() != 1)
 				throw std::runtime_error("syntax error: " + line);
@@ -215,10 +221,10 @@ void Parser::parse_location_block(std::ifstream& file, const svector& location_v
 					location->set_redirection(vec);
 				}
 				break ;
-			default :
-				if (!match)
-					throw std::runtime_error("syntax error: " + line);
+			// default :
 		}
+		if (!match)
+			throw std::runtime_error("syntax error: " + line);
 	}
 	if (!opened || !closed)
 		throw std::invalid_argument("syntax error: mismatched or missing bracket");

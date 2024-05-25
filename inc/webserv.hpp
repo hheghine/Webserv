@@ -46,7 +46,7 @@ typedef std::vector<std::string>::iterator					svector_it;
 typedef std::vector<std::string>::const_iterator			svector_const_it;
 
 /*------------GLOBAL VARIABLES------------*/
-extern std::string g_error;
+// extern std::string g_error;
 
 inline static void	usage()
 {

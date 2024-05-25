@@ -1,7 +1,7 @@
 #include "a_server.hpp"
 #include <filesystem>
 
-std::string wb::g_error;
+// std::string wb::g_error;
 
 AServer::AServer()
 	: _get(false)
@@ -22,12 +22,12 @@ void AServer::set_root(const svector& line)
 
 	if (line.size() != 2)
 	{
-		g_error = "root: syntax error";
+		throw std::invalid_argument("root: syntax error");
 		return ;
 	}
 	if (!utils::is_directory(*it))
 	{
-		g_error = "root: not a directory";
+		throw std::invalid_argument("root: not a directory");
 		return ;
 	}
 	_root = "www/" + *it;
@@ -40,7 +40,7 @@ void AServer::set_index(const svector& line)
 
 	if (it + 1 != line.end())
 	{
-		g_error = "index: syntax error";
+		throw std::invalid_argument("index: syntax error");
 		return ;
 	}
 
@@ -51,13 +51,13 @@ void AServer::set_index(const svector& line)
 		std::string::size_type pos = (fpath).rfind('.');
 		if (pos == std::string::npos)
 		{
-			g_error = "wrong file format: " + *it;
+			throw std::invalid_argument("wrong file format: " + *it);
 			return ;
 		}
 		std::string extension = (fpath).substr(pos);
 		if (extension != ".html")
 		{
-			g_error = "wrong file format: " + *it;
+			throw std::invalid_argument("wrong file format: " + *it);
 			return ;
 		}
 		else
@@ -67,7 +67,7 @@ void AServer::set_index(const svector& line)
 			return ;
 		}
 	}
-	g_error = ("non-existent file: ") + *it;
+	throw std::invalid_argument(("non-existent file: ") + *it);
 }
 
 void AServer::set_methods(const svector& line)
@@ -82,7 +82,7 @@ void AServer::set_methods(const svector& line)
 			_delete = true;
 		else
 		{
-			g_error = "invalid method";
+			throw std::invalid_argument("invalid method");
 			return ;
 		}
 	}
