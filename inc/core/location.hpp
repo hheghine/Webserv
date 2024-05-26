@@ -16,6 +16,7 @@ class Location : public AServer {
 			INDEX = 105,
 			AUTOINDEX = 97,
 			METHODS = 109,
+			LOCATION = 108,
 			REDIRECTION = 114
 		};
 

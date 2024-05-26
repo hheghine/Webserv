@@ -60,9 +60,6 @@ void Parser::parse_server_block(std::ifstream& file)
 
 	while (std::getline(file, line))
 	{
-		// if (!g_error.empty())
-		// 	throw std::runtime_error(g_error);
-
 		svector vec = utils::split_line(line);
 
 		if (vec.empty() || vec.at(0)[0] == '#')
@@ -138,7 +135,6 @@ void Parser::parse_server_block(std::ifstream& file)
 					match = true;
 					serv->set_methods(vec);
 				}
-				break ;
 		}
 		if (!match)
 			throw std::runtime_error("syntax error: " + line);
@@ -164,9 +160,6 @@ void Parser::parse_location_block(std::ifstream& file, const svector& location_v
 
 	while (std::getline(file, line))
 	{
-		// if (!g_error.empty())
-		// 	throw std::runtime_error(g_error);
-
 		svector vec = utils::split_line(line);
 
 		if (vec.empty() || vec.at(0)[0] == '#')
@@ -221,7 +214,14 @@ void Parser::parse_location_block(std::ifstream& file, const svector& location_v
 					location->set_redirection(vec);
 				}
 				break ;
-			// default :
+			case Location::LOCATION :
+				if (vec[0] == "location")
+				{
+					match = true;
+					Location* loc = new Location();
+					location->_locations.push_back(loc);
+					parse_location_block(file, vec, loc);
+				}
 		}
 		if (!match)
 			throw std::runtime_error("syntax error: " + line);
