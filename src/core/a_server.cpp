@@ -1,8 +1,6 @@
 #include "a_server.hpp"
 #include <filesystem>
 
-// std::string wb::g_error;
-
 AServer::AServer()
 	: _get(false)
 	, _post(false)
@@ -46,7 +44,7 @@ void AServer::set_index(const svector& line)
 
 	std::string fpath = "www/" + *it;
 
-	if (utils::file_exists(fpath))
+	if (utils::file_exists(fpath, R_OK))
 	{
 		std::string::size_type pos = (fpath).rfind('.');
 		if (pos == std::string::npos)

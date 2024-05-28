@@ -19,17 +19,22 @@ typedef std::vector<Server *>::iterator serv_it;
 /*---------------PARSER CLASS---------------*/
 class Parser {
 	public:
-		Parser(const std::string& filename);
-		~Parser();
+		// Parser();
+		// ~Parser();
+
+		// void parse(const std::string& filename, std::vector<AServer *>& _servers);
 
 	private:
 		std::stack<char> 		_brackets;
-		std::vector<Server *>	_servers;
-	
+		// std::vector<Server *>	_servers;
+
 	private:
-		void lets_go(const std::string& filename);
-		void parse_server_block(std::ifstream& file);
+		void lets_go(const std::string& filename, std::vector<Server *>& _servers);
+		void parse_server_block(std::ifstream& file, std::vector<Server *>& _servers);
 		void parse_location_block(std::ifstream& file, const svector& location_vec, Location* location);
+
+	public:
+		void operator()(const std::string& filename, std::vector<Server *>& _server);
 };
 
 

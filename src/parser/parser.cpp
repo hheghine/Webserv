@@ -1,21 +1,26 @@
 #include "parser.hpp"
 
-Parser::Parser(const std::string& filename)
+// Parser::Parser(const std::string& filename)
+// {
+	
+// }
+
+// Parser::~Parser()
+// {
+	// for (serv_it it = _servers.begin(); it != _servers.end(); ++ it)
+	// 	delete *it;
+// }
+
+void Parser::operator()(const std::string& filename, std::vector<Server *>& _servers)
 {
 	try {
-		lets_go(filename);
+		lets_go(filename, _servers);
 	} catch (const std::exception& e) {
 		std::cout << RED << "[ ✘ ] " << e.what() << std::endl;
 	}
 }
 
-Parser::~Parser()
-{
-	for (serv_it it = _servers.begin(); it != _servers.end(); ++ it)
-		delete *it;
-}
-
-void Parser::lets_go(const std::string& filename)
+void Parser::lets_go(const std::string& filename, std::vector<Server *>& _servers)
 {
 	std::string::size_type pos = filename.rfind('.');
 	if (pos == std::string::npos)
@@ -45,14 +50,14 @@ void Parser::lets_go(const std::string& filename)
 			if ((vec.size() == 1 && vec.at(0).find("{") != std::string::npos) \
 			|| (vec.size() == 2 && vec.at(1) == "{"))
 				_brackets.push('{');
-			parse_server_block(file);
+			parse_server_block(file, _servers);
 		}
 		else
 			throw std::invalid_argument( "wrong file syntax: " + line);
 	}
 }
 
-void Parser::parse_server_block(std::ifstream& file)
+void Parser::parse_server_block(std::ifstream& file, std::vector<Server *>& _servers)
 {
 	std::string line;
 	_servers.push_back(new Server());

@@ -45,9 +45,6 @@ typedef std::vector<std::string>							svector;
 typedef std::vector<std::string>::iterator					svector_it;
 typedef std::vector<std::string>::const_iterator			svector_const_it;
 
-/*------------GLOBAL VARIABLES------------*/
-// extern std::string g_error;
-
 inline static void	usage()
 {
 	std::cout << BWHT << MAIN << "\t+-------------------------------------------------------+\n" << "\t|" \

@@ -13,7 +13,14 @@ typedef std::vector<std::string> svector;
 namespace utils
 {
 
-bool	file_exists(const std::string& filename);
+enum perm
+{
+	EX_OK = 1,
+	WR_OK = 2,
+	RD_OK = 4
+};
+
+bool	file_exists(const std::string& filename, int flag);
 bool	is_directory(const std::string& path);
 svector split_line(const std::string& line);
 int		to_int(const std::string& line);
