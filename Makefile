@@ -34,7 +34,7 @@ PARSER_DIR	= $(SRCS_DIR)parser/
 UTILS_DIR	= $(SRCS_DIR)utils/
 CORE_DIR	= $(SRCS_DIR)core/
 
-SRC_FILES	= $(SRCS_DIR)main.cpp \
+SRC_FILES	= $(addprefix $(SRCS_DIR), main.cpp data.cpp) \
 				$(addprefix $(CORE_DIR), a_server.cpp server.cpp location.cpp) \
 				$(addprefix $(UTILS_DIR), utils.cpp) \
 				$(addprefix $(PARSER_DIR), parser.cpp)

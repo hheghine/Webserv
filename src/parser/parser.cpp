@@ -1,16 +1,5 @@
 #include "parser.hpp"
 
-// Parser::Parser(const std::string& filename)
-// {
-	
-// }
-
-// Parser::~Parser()
-// {
-	// for (serv_it it = _servers.begin(); it != _servers.end(); ++ it)
-	// 	delete *it;
-// }
-
 void Parser::operator()(const std::string& filename, std::vector<Server *>& _servers)
 {
 	try {

@@ -4,6 +4,8 @@
 # include <stack>
 # include "a_server.hpp"
 
+
+/*-------------- SERVER CLASS --------------*/
 class Server : public AServer {
 	private:
 		std::string			_server_name;

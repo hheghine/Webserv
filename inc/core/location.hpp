@@ -3,6 +3,7 @@
 
 # include "a_server.hpp"
 
+/*------------ LOCATION CLASS ------------*/
 class Location : public AServer {
 	private:
 		std::string	_modifier;

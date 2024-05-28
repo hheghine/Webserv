@@ -1,10 +1,8 @@
 #include "utils.hpp"
-#include <iostream>
-#include <fcntl.h>
+
 
 bool utils::file_exists(const std::string& filename, int flag)
 {
-	// return (access(filename.c_str(), F_OK) != -1);
 	return (open(filename.c_str(), flag));
 }
 
@@ -31,7 +29,7 @@ svector utils::split_line(const std::string& line)
 }
 
 int utils::to_int(const std::string& line)
-{val < 0 || val > 65535)
+{
 	std::stringstream ss(line);
 	int val = 0;
 	char remaining;

@@ -2,10 +2,10 @@
 # define PARSER_HPP
 
 
-/*-----------STANDARD LIBRARIES-----------*/
+/*----------- STANDARD LIBRARIES -----------*/
 # include <stack>
 
-/*--------------HEADER FILES--------------*/
+/*-------------- HEADER FILES --------------*/
 # include "webserv.hpp"
 # include "server.hpp"
 # include "location.hpp"
@@ -13,20 +13,13 @@
 
 using namespace wb;
 
-/*-----------------ALIASES-----------------*/
+/*----------------- ALIASES -----------------*/
 typedef std::vector<Server *>::iterator serv_it;
 
-/*---------------PARSER CLASS---------------*/
+/*--------- PARSER CLASS ( FUNCTOR ) ---------*/
 class Parser {
-	public:
-		// Parser();
-		// ~Parser();
-
-		// void parse(const std::string& filename, std::vector<AServer *>& _servers);
-
 	private:
 		std::stack<char> 		_brackets;
-		// std::vector<Server *>	_servers;
 
 	private:
 		void lets_go(const std::string& filename, std::vector<Server *>& _servers);

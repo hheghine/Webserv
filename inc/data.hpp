@@ -5,11 +5,7 @@
 
 class Data {
 	public:
-		~Data()
-		{
-			for (std::vector<Server *>::iterator it = _servers.begin(); it != _servers.end(); ++ it)
-			delete *it;
-		}
+		~Data();
 
 		std::vector<Server *> _servers;
 };
