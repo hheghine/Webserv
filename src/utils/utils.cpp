@@ -32,10 +32,77 @@ int utils::to_int(const std::string& line)
 {
 	std::stringstream ss(line);
 	int val = 0;
+
+    ss >> val;
+
+	if (ss.fail() || !ss.eof())
+		throw std::invalid_argument("invalid argument: '" + line + "'");
+
+	return val;
+}
+
+u_short utils::extract_port(const std::string& line)
+{
+	std::stringstream ss(line);
+	int val = 0;
 	char remaining;
 
 	if (!(ss >> val) || ss.get(remaining) || \
 	val < 0 || val > 65535)
 		throw std::invalid_argument("invalid port: " + line);
-	return val;
+	return static_cast<u_short>(val);
+}
+
+std::string utils::extract_str_before(const std::string& str, char c)
+{
+	std::string::const_iterator it = str.begin();
+
+	while (it != str.end() && *it != c)
+		it ++;
+
+	return std::string(str.begin(), it);
+}
+
+std::string utils::extract_str_after(const std::string& str, char c)
+{
+	std::string::const_iterator it = str.begin();
+
+	while (it != str.end() && *it != c)
+		it ++;
+
+	if (it == str.end())
+		return "";
+
+	it ++;
+	return std::string(it, str.end());
+}
+
+void utils::ip_check(const std::string& ip)
+{
+	int dot = 0;
+	std::string::const_iterator start = ip.begin();
+	std::string::const_iterator end = start;
+	std::string::const_iterator it = start;
+
+	for (; it != ip.end(); ++it)
+	{
+		end = ip.end();
+
+		if (*it == '.')
+		{
+			dot ++;
+			end = it;
+		}
+		if (dot == 3 || *end == '.')
+		{
+			int num = utils::to_int(std::string(start, end));
+			if (num < 0 || num > 255)
+				throw std::invalid_argument("invalid ip: " + ip);
+			it ++;
+			start = it;
+		}
+	}
+
+	if (dot != 3)
+		throw std::invalid_argument("invalid ip: " + ip);
 }

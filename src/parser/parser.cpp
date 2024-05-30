@@ -92,7 +92,8 @@ void Parser::parse_server_block(std::ifstream& file, std::vector<Server *>& _ser
 				if (vec[0] == "listen")
 				{
 					match = true;
-					serv->set_ports(vec);
+					// serv->set_ports(vec);
+					serv->set_hosts(vec);
 				}
 				else if (vec[0] == "location")
 				{
