@@ -19,19 +19,6 @@ void Server::set_server_name(const svector& line)
 	std::cout << "server_name: " << _server_name << std::endl; 
 }
 
-void Server::set_ports(const svector& line)
-{
-	svector_const_it it = line.begin() + 1;
-
-	std::cout << "ports: ";
-	for(; it != line.end(); ++it)
-	{
-		_ports.push_back(utils::to_int(*it));
-		std::cout << utils::to_int(*it) << " ";
-	}
-	std::cout << std::endl;
-}
-
 const hosts_map& Server::get_hosts_map() const
 {
 	return _hosts;
@@ -62,7 +49,9 @@ void Server::set_hosts(const svector& line)
 		if (idx != std::string::npos)
 		{
 			utils::ip_check(*it);
-			_hosts[*it].push_back(80);
+			if (std::find(_hosts[*it].begin(), _hosts[*it].end(), 80) \
+			== _hosts[*it].end())
+				_hosts[*it].push_back(80);
 			add_universal_ports(*it);
 		}
 		else
@@ -70,7 +59,11 @@ void Server::set_hosts(const svector& line)
 			u_short port = utils::extract_port(*it);
 			_universal_ports.push_back(port);
 			for (hosts_it iter = _hosts.begin(); iter != _hosts.end(); ++iter)
-				iter->second.push_back(port);
+				if (std::find(iter->second.begin(), iter->second.end(), port) == iter->second.end())
+					iter->second.push_back(port);
+			if (std::find(_hosts["127.0.0.1"].begin(), _hosts["127.0.0.1"].end(), port) \
+			== _hosts["127.0.0.1"].end())
+				_hosts["127.0.0.1"].push_back(port);
 		}
 	}
 }

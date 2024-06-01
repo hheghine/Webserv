@@ -34,7 +34,6 @@ class Server : public AServer {
 
 	public:
 		void set_server_name(const svector& line);
-		void set_ports(const svector& line);
 		void set_hosts(const svector& line);
 
 		const hosts_map& get_hosts_map() const;
