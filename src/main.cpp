@@ -1,6 +1,6 @@
 #include "webserv.hpp"
 #include "parser.hpp"
-#include "data.hpp"
+#include "server_core.hpp"
 
 int	main(int ac, char** av)
 {
@@ -12,7 +12,7 @@ int	main(int ac, char** av)
 	}
 	const std::string	filename = av[1];
 
-	Data* data = new Data();
+	ServerCore* data = new ServerCore();
 
 	try {
 		Parser p;

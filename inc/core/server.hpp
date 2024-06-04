@@ -11,7 +11,7 @@ typedef std::map<std::string, std::vector<u_short> >::const_iterator const_host_
 
 /*-------------- SERVER CLASS --------------*/
 class Server : public AServer {
-	private:
+	public: // change to private
 		std::string	_server_name;
 		hosts_map	_hosts;
 		std::vector<u_short>	_ports; // max value 65535 same as for ports
