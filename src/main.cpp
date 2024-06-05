@@ -13,9 +13,9 @@ int	main(int ac, char** av)
 	const std::string	filename = av[1];
 
 	ServerCore* data = new ServerCore();
+	Parser p;
 
 	try {
-		Parser p;
 		p(filename, data->_servers);
 
 		for (std::vector<Server *>::iterator it = data->_servers.begin(); it != data->_servers.end(); ++it)

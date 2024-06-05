@@ -2,7 +2,8 @@
 # define SERVER_HPP
 
 # include <stack>
-#include <netinet/in.h>
+# include <netinet/in.h>
+# include <arpa/inet.h>
 # include "a_server.hpp"
 
 typedef std::map<std::string, std::vector<u_short> > hosts_map;
