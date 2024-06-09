@@ -1,12 +1,8 @@
 #include "parser.hpp"
 
-void Parser::operator()(const std::string& filename, std::vector<Server *>& _servers)
+Parser::Parser(const std::string& filename, std::vector<Server *>& _servers)
 {
-	try {
-		lets_go(filename, _servers);
-	} catch (const std::exception& e) {
-		std::cout << RED << "[ ✘ ] " << e.what() << std::endl;
-	}
+	lets_go(filename, _servers);
 }
 
 void Parser::lets_go(const std::string& filename, std::vector<Server *>& _servers)

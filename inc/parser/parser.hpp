@@ -16,10 +16,10 @@ using namespace wb;
 /*----------------- ALIASES -----------------*/
 typedef std::vector<Server *>::iterator serv_it;
 
-/*--------- PARSER CLASS ( FUNCTOR ) ---------*/
+/*--------------- PARSER CLASS ---------------*/
 class Parser {
 	private:
-		std::stack<char> 		_brackets;
+		std::stack<char> 	_brackets;
 
 	private:
 		void lets_go(const std::string& filename, std::vector<Server *>& _servers);
@@ -27,7 +27,7 @@ class Parser {
 		void parse_location_block(std::ifstream& file, const svector& location_vec, Location* location);
 
 	public:
-		void operator()(const std::string& filename, std::vector<Server *>& _server);
+		Parser(const std::string& filename, std::vector<Server *>& _servers);
 };
 
 

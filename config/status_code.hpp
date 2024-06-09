@@ -138,7 +138,6 @@ inline std::string reasonPhrase(int code)
 	case 103: return "Early Hints";
 
 	//####### 2xx - Successful #######
-	case 200: return "OK";
 	case 201: return "Created";
 	case 202: return "Accepted";
 	case 203: return "Non-Authoritative Information";

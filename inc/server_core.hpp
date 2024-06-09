@@ -14,6 +14,9 @@ class ServerCore {
 
 		std::vector<Server *>	_servers;
 
+	public:
+		void run(const std::string& filename);
+
 	private:
 
 	struct Listener {
