@@ -27,7 +27,6 @@ class AServer {
 		void		set_index(const svector& line);
 		void		set_methods(const svector& line);
 		void		set_autoindex(const svector& line);
-		// AServer*	set_location(const svector& line);
 		// void	set_error_pages(const svector& line);
 
 };

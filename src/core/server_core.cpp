@@ -25,15 +25,17 @@ void ServerCore::_create_listen_sockets()
 		for (const_host_it it = map.begin(); it != map.end(); ++it)
 		{
 			_listen_sockets.push_back(Listener());
-			in_addr_t host = inet_addr((it->first).c_str());
-			_init_listen_socket(host, map[it->first], idx);
+			// in_addr_t host = inet_addr((it->first).c_str());
+			_init_listen_socket(it->first, map[it->first], idx);
 			idx ++;
 		}
 	}
 }
 
-void ServerCore::_init_listen_socket(in_addr_t host, const std::vector<u_short>& ports, int idx)
+void ServerCore::_init_listen_socket(const std::string& ip, const std::vector<u_short>& ports, int idx)
 {
+	in_addr_t host = inet_addr(ip.c_str());
+
 	for (std::vector<u_short>::const_iterator it = ports.begin(); it != ports.end(); ++it)
 	{
 		struct sockaddr address;
@@ -49,7 +51,7 @@ void ServerCore::_init_listen_socket(in_addr_t host, const std::vector<u_short>&
 		_listen_sockets[idx].host = addressIn.sin_addr.s_addr;
 		_listen_sockets[idx].socket = socket(AF_INET, SOCK_STREAM, 0);
 
-		std::cout << MAIN << "[ INFO\t]" << CRST << " listen socket [ "  << MAIN << _listen_sockets[idx].socket << CRST << " ] port: " << MAIN << addressIn.sin_port << CRST << " " << addressIn.sin_addr.s_addr << std::endl;
+		std::cout << MAIN << "[ WEBSERV  ]" << CRST << " listen socket [ "  << MAIN << _listen_sockets[idx].socket << CRST << " ] port: " << MAIN << addressIn.sin_port << CRST << " " << addressIn.sin_addr.s_addr << " " << ip << std::endl;
 
 		int opt = 1;
 		setsockopt(_listen_sockets[idx].socket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));

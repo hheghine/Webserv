@@ -20,14 +20,16 @@ typedef std::vector<Server *>::iterator serv_it;
 class Parser {
 	private:
 		std::stack<char> 	_brackets;
+		std::string _filename;
+		std::vector<Server *>& _servers;
 
 	private:
-		void lets_go(const std::string& filename, std::vector<Server *>& _servers);
-		void parse_server_block(std::ifstream& file, std::vector<Server *>& _servers);
+		void parse();
+		void parse_server_block(std::ifstream& file);
 		void parse_location_block(std::ifstream& file, const svector& location_vec, Location* location);
 
 	public:
-		Parser(const std::string& filename, std::vector<Server *>& _servers);
+		Parser(const std::string& filename, std::vector<Server *>& servers);
 };
 
 

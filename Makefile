@@ -71,17 +71,17 @@ $(OBJS_DIR) :
 	@sleep 0.1
 	@printf "$(COLOR_6)%24s Creating $(END)$(WHITE)$(OBJS_DIR)/$(SRCS_DIR)...\n"
 	@mkdir -p $(OBJS_DIR)/$(SRCS_DIR)
-	@sleep 0.1
 	@printf "$(COLOR_6)%21s Creating $(END)$(WHITE)$(OBJS_DIR)/$(PARSER_DIR)...\n"
+	@sleep 0.1
 	@mkdir -p $(OBJS_DIR)/$(PARSER_DIR)
-	@sleep 0.1
 	@printf "$(COLOR_6)%21s Creating $(END)$(WHITE)$(OBJS_DIR)/$(STRUCT_DIR)...\n"
+	@sleep 0.1
 	@mkdir -p $(OBJS_DIR)/$(STRUCT_DIR)
-	@sleep 0.1
 	@printf "$(COLOR_6)%21s Creating $(END)$(WHITE)$(OBJS_DIR)/$(UTILS_DIR)...\n"
-	@mkdir -p $(OBJS_DIR)/$(UTILS_DIR)
 	@sleep 0.1
+	@mkdir -p $(OBJS_DIR)/$(UTILS_DIR)
 	@printf "$(COLOR_6)%21s Creating $(END)$(WHITE)$(OBJS_DIR)/$(CORE_DIR)...\n"
+	@sleep 0.1
 	@mkdir -p $(OBJS_DIR)/$(CORE_DIR)
 
 $(OBJS) : $(OBJS_DIR)/%.o : %.cpp

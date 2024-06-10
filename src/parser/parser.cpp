@@ -1,22 +1,24 @@
 #include "parser.hpp"
 
-Parser::Parser(const std::string& filename, std::vector<Server *>& _servers)
+Parser::Parser(const std::string& filename, std::vector<Server *>& server)
+	: _filename(filename)
+	, _servers(server)
 {
-	lets_go(filename, _servers);
+	parse();
 }
 
-void Parser::lets_go(const std::string& filename, std::vector<Server *>& _servers)
+void Parser::parse()
 {
-	std::string::size_type pos = filename.rfind('.');
+	std::string::size_type pos = _filename.rfind('.');
 	if (pos == std::string::npos)
-		throw std::invalid_argument("wrong file format: " + filename);
-	std::string extension = filename.substr(pos);
+		throw std::invalid_argument("wrong file format: " + _filename);
+	std::string extension = _filename.substr(pos);
 	if (extension != ".conf")
-		throw std::invalid_argument("wrong file format: " + filename);
+		throw std::invalid_argument("wrong file format: " + _filename);
 
-	std::ifstream file(filename.c_str());
+	std::ifstream file(_filename.c_str());
 	if (!file.good())
-		throw std::invalid_argument("invalid file: " + filename);
+		throw std::invalid_argument("invalid file: " + _filename);
 
 	std::string line;
 	while (std::getline(file, line))
@@ -35,14 +37,14 @@ void Parser::lets_go(const std::string& filename, std::vector<Server *>& _server
 			if ((vec.size() == 1 && vec.at(0).find("{") != std::string::npos) \
 			|| (vec.size() == 2 && vec.at(1) == "{"))
 				_brackets.push('{');
-			parse_server_block(file, _servers);
+			parse_server_block(file);
 		}
 		else
 			throw std::invalid_argument( "wrong file syntax: " + line);
 	}
 }
 
-void Parser::parse_server_block(std::ifstream& file, std::vector<Server *>& _servers)
+void Parser::parse_server_block(std::ifstream& file)
 {
 	std::string line;
 	_servers.push_back(new Server());
@@ -58,7 +60,7 @@ void Parser::parse_server_block(std::ifstream& file, std::vector<Server *>& _ser
 		if (vec.at(0) == "{" && _brackets.empty())
 		{
 			if (vec.size() != 1)
-				throw std::runtime_error("syntax error: " + line);
+				throw std::invalid_argument("syntax error: " + line);
 			_brackets.push('{');
 			continue ;
 		}
@@ -127,7 +129,7 @@ void Parser::parse_server_block(std::ifstream& file, std::vector<Server *>& _ser
 				}
 		}
 		if (!match)
-			throw std::runtime_error("syntax error: " + line);
+			throw std::invalid_argument("syntax error: " + line);
 	}
 	if (!_brackets.empty())
 		throw std::invalid_argument("syntax error: mismatched or missing bracket");
@@ -161,7 +163,7 @@ void Parser::parse_location_block(std::ifstream& file, const svector& location_v
 				throw std::invalid_argument("syntax error: mismatched or missing bracket");
 			opened = true;
 			if (vec.size() != 1)
-				throw std::runtime_error("syntax error: " + line);
+				throw std::invalid_argument("syntax error: " + line);
 			_brackets.push('{');
 			continue ;
 		}
@@ -214,7 +216,7 @@ void Parser::parse_location_block(std::ifstream& file, const svector& location_v
 				}
 		}
 		if (!match)
-			throw std::runtime_error("syntax error: " + line);
+			throw std::invalid_argument("syntax error: " + line);
 	}
 	if (!opened || !closed)
 		throw std::invalid_argument("syntax error: mismatched or missing bracket");

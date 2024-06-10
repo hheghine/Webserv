@@ -12,8 +12,6 @@ class ServerCore {
 		ServerCore();
 		~ServerCore();
 
-		std::vector<Server *>	_servers;
-
 	public:
 		void run(const std::string& filename);
 
@@ -26,13 +24,14 @@ class ServerCore {
 	};
 
 	private:
+		std::vector<Server *>	_servers;
 		std::vector<Listener>	_listen_sockets;
 		std::list<int>			_client_sockets;
 		int						_num;
 
 	private:
 		void _create_listen_sockets();
-		void _init_listen_socket(in_addr_t host, const std::vector<u_short>& ports, int idx);
+		void _init_listen_socket(const std::string& ip, const std::vector<u_short>& ports, int idx);
 
 
 };
