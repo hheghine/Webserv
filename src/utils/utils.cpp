@@ -77,64 +77,32 @@ std::string utils::extract_str_after(const std::string& str, char c)
 	return std::string(it, str.end());
 }
 
-// void utils::ip_check(const std::string& ip)
-// {
-// 	int dot = 0;
-// 	std::string::const_iterator start = ip.begin();
-// 	std::string::const_iterator end = start;
-// 	std::string::const_iterator it = start;
-
-// 	for (; it != ip.end(); ++it)
-// 	{
-// 		end = ip.end();
-
-// 		if (*it == '.')
-// 		{
-// 			dot ++;
-// 			end = it;
-// 		}
-// 		if (dot == 3 || *end == '.')
-// 		{
-// 			int num = utils::to_int(std::string(start, end));
-// 			if (num < 0 || num > 255)
-// 				throw std::invalid_argument("invalid ip: " + ip);
-// 			it ++;
-// 			start = it;
-// 		}
-// 	}
-
-// 	if (dot != 3)
-// 		throw std::invalid_argument("invalid ip: " + ip);
-// }
-
 void utils::ip_check(const std::string& ip)
 {
-    int dot = 0;
-    std::string::const_iterator start = ip.begin();
-    std::string::const_iterator end = start;
+	int dot = 0;
+	std::string::const_iterator start = ip.begin();
+	std::string::const_iterator end = start;
 
-    for (std::string::const_iterator it = start; it != ip.end(); ++it)
-    {
-        if (*it == '.')
-        {
-            dot++;
-            end = it;
-            int num = utils::to_int(std::string(start, end));
-            if (num < 0 || num > 255)
-                throw std::invalid_argument("invalid ip: " + ip);
-            start = it + 1;  // Move start to the next character after the dot
-        }
-    }
+	for (std::string::const_iterator it = start; it != ip.end(); ++it)
+	{
+		if (*it == '.')
+		{
+			dot++;
+			end = it;
+			int num = utils::to_int(std::string(start, end));
+			if (num < 0 || num > 255)
+				throw std::invalid_argument("invalid ip: " + ip);
+			start = it + 1;
+		}
+	}
 
-    // Check the last segment after the last dot
-    if (start != ip.end())
-    {
-        int num = utils::to_int(std::string(start, ip.end()));
-        if (num < 0 || num > 255)
-            throw std::invalid_argument("invalid ip: " + ip);
-    }
+	if (start != ip.end())
+	{
+		int num = utils::to_int(std::string(start, ip.end()));
+		if (num < 0 || num > 255)
+			throw std::invalid_argument("invalid ip: " + ip);
+	}
 
-    // Ensure exactly 3 dots were found
-    if (dot != 3)
-        throw std::invalid_argument("invalid ip: " + ip);
+	if (dot != 3)
+		throw std::invalid_argument("invalid ip: " + ip);
 }

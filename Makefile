@@ -31,16 +31,19 @@ PRINT_NAME = printf "\n$(COLOR_1) %4s $(NAME_LINE_1) %4s $(COLOR_2)$(NAME_LINE_2
 
 SRCS_DIR	= src/
 PARSER_DIR	= $(SRCS_DIR)parser/
+STRUCT_DIR = $(SRCS_DIR)structures/
 UTILS_DIR	= $(SRCS_DIR)utils/
 CORE_DIR	= $(SRCS_DIR)core/
 
-SRC_FILES	= $(addprefix $(SRCS_DIR), main.cpp server_core.cpp) \
-				$(addprefix $(CORE_DIR), a_server.cpp server.cpp location.cpp) \
+SRC_FILES	= $(addprefix $(SRCS_DIR), main.cpp) \
+				$(addprefix $(STRUCT_DIR), a_server.cpp server.cpp location.cpp) \
+				$(addprefix $(CORE_DIR), server_core.cpp) \
 				$(addprefix $(UTILS_DIR), utils.cpp) \
 				$(addprefix $(PARSER_DIR), parser.cpp)
 
 INCLUDES	=	-Iinc \
 					-Iinc/parser \
+					-Iinc/structures \
 					-Iinc/utils \
 					-Iinc/core \
 
@@ -71,6 +74,9 @@ $(OBJS_DIR) :
 	@sleep 0.1
 	@printf "$(COLOR_6)%21s Creating $(END)$(WHITE)$(OBJS_DIR)/$(PARSER_DIR)...\n"
 	@mkdir -p $(OBJS_DIR)/$(PARSER_DIR)
+	@sleep 0.1
+	@printf "$(COLOR_6)%21s Creating $(END)$(WHITE)$(OBJS_DIR)/$(STRUCT_DIR)...\n"
+	@mkdir -p $(OBJS_DIR)/$(STRUCT_DIR)
 	@sleep 0.1
 	@printf "$(COLOR_6)%21s Creating $(END)$(WHITE)$(OBJS_DIR)/$(UTILS_DIR)...\n"
 	@mkdir -p $(OBJS_DIR)/$(UTILS_DIR)

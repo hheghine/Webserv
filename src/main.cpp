@@ -4,12 +4,12 @@
 
 int	main(int ac, char** av)
 {
-	(void)av;
 	if (ac != 2)
 	{
 		wb::usage();
 		return 0;
 	}
+
 	const std::string	filename = av[1];
 
 	ServerCore* data = new ServerCore();
