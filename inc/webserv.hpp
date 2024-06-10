@@ -53,6 +53,13 @@ inline static void	usage()
 			<< CRST << std::endl;
 }
 
+inline static void display_time ()
+{
+	time_t now = time(0);
+	tm *ltm = localtime(&now);
+	std::cout << GRY << "[" << ltm->tm_year + 1900 << "-" << ltm->tm_mon << "-" << ltm->tm_mday << "  " << ltm->tm_hour << ":" << ltm->tm_min << ":" << ltm->tm_sec << "]" << CRST;
+}
+
 }
 
 #endif

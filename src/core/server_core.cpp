@@ -44,14 +44,17 @@ void ServerCore::_init_listen_socket(const std::string& ip, const std::vector<u_
 		memset(reinterpret_cast<char *>(&address), 0, sizeof(struct sockaddr));
 
 		addressIn.sin_family = AF_INET;
-		addressIn.sin_port = *it;
+		addressIn.sin_port = htons(*it);
 		addressIn.sin_addr.s_addr = host;
 
 		_listen_sockets[idx].port = addressIn.sin_port;
 		_listen_sockets[idx].host = addressIn.sin_addr.s_addr;
 		_listen_sockets[idx].socket = socket(AF_INET, SOCK_STREAM, 0);
 
-		std::cout << MAIN << "[ WEBSERV  ]" << CRST << " listen socket [ "  << MAIN << _listen_sockets[idx].socket << CRST << " ] port: " << MAIN << addressIn.sin_port << CRST << " " << addressIn.sin_addr.s_addr << " " << ip << std::endl;
+		display_time();
+		std::cout << MAIN << "\t[ WEBSERV  ]" << CRST << " listen socket [ "  << MAIN \
+		<< _listen_sockets[idx].socket << CRST << " ] port: " << MAIN << *it \
+		<< CRST << " " << addressIn.sin_port << " host: " << ip << " " << addressIn.sin_addr.s_addr << std::endl;
 
 		int opt = 1;
 		setsockopt(_listen_sockets[idx].socket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
