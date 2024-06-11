@@ -11,7 +11,8 @@
 # include "location.hpp"
 # include "utils.hpp"
 
-using namespace wb;
+namespace wb
+{
 
 /*----------------- ALIASES -----------------*/
 typedef std::vector<Server *>::iterator serv_it;
@@ -32,5 +33,6 @@ class Parser {
 		Parser(const std::string& filename, std::vector<Server *>& servers);
 };
 
+}
 
 #endif

@@ -1,5 +1,7 @@
 #include "parser.hpp"
 
+using namespace wb;
+
 Parser::Parser(const std::string& filename, std::vector<Server *>& server)
 	: _filename(filename)
 	, _servers(server)

@@ -3,8 +3,10 @@
 
 /*--------------HEADER FILES--------------*/
 # include "webserv.hpp"
-using namespace wb;
 
+
+namespace wb
+{
 
 /*-------------SERVER CLASS-------------*/
 class AServer {
@@ -32,5 +34,7 @@ class AServer {
 };
 
 typedef std::vector<AServer *>::iterator location_it;
+
+}
 
 #endif

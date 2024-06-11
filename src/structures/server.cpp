@@ -1,5 +1,7 @@
 #include "server.hpp"
 
+using namespace wb;
+
 Server::Server()
 	: AServer()
 	, _max_body_size(300)

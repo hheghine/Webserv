@@ -1,5 +1,7 @@
 #include "location.hpp"
 
+using namespace wb;
+
 Location::Location()
 	: AServer()
 {}

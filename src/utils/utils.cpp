@@ -1,5 +1,7 @@
 #include "utils.hpp"
 
+using namespace wb;
+
 
 bool utils::file_exists(const std::string& filename, int flag)
 {

@@ -2,6 +2,9 @@
 #include "parser.hpp"
 #include "server_core.hpp"
 
+using namespace wb;
+
+
 int	main(int ac, char** av)
 {
 	if (ac != 2)

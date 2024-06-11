@@ -11,6 +11,10 @@
 # include <unistd.h>
 #include <fcntl.h>
 
+
+namespace wb
+{
+
 /*----------------- ALIASES -----------------*/
 typedef std::vector<std::string> svector;
 
@@ -34,5 +38,7 @@ std::string	extract_str_after(const std::string& line, char c);
 void		ip_check(const std::string& ip);
 
 };
+
+}
 
 #endif

@@ -3,6 +3,9 @@
 
 # include "a_server.hpp"
 
+namespace wb
+{
+
 /*------------ LOCATION CLASS ------------*/
 class Location : public AServer {
 	private:
@@ -26,5 +29,7 @@ class Location : public AServer {
 		void set_redirection(const svector& line);
 
 };
+
+}
 
 #endif

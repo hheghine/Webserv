@@ -1,12 +1,21 @@
 #include "server_core.hpp"
 
-ServerCore::ServerCore() : _num(0) {}
+using namespace wb;
+
+
+ServerCore::ServerCore()
+	: _num(0)
+	, _responder(_servers)
+{}
 
 void ServerCore::run(const std::string& filename)
 {
 	Parser p(filename, this->_servers);
 
 	_create_listen_sockets();
+
+	// fd_set read_fd;
+	// fd_set write_fd;
 }
 
 ServerCore::~ServerCore()
@@ -65,7 +74,7 @@ void ServerCore::_init_listen_socket(const std::string& ip, const std::vector<u_
 		if (listen(_listen_sockets[idx].socket, 32))
 			throw std::runtime_error("error: listen");
 
-		// FD_SET();
+		FD_SET(_listen_sockets[idx].socket, &_responder.get_master());
 
 		if (_listen_sockets[idx].socket > _num)
 			_num = _listen_sockets[idx].socket;

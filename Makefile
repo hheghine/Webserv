@@ -35,9 +35,12 @@ STRUCT_DIR = $(SRCS_DIR)structures/
 UTILS_DIR	= $(SRCS_DIR)utils/
 CORE_DIR	= $(SRCS_DIR)core/
 
-SRC_FILES	= $(addprefix $(SRCS_DIR), main.cpp) \
-				$(addprefix $(STRUCT_DIR), a_server.cpp server.cpp location.cpp) \
-				$(addprefix $(CORE_DIR), server_core.cpp) \
+SRC_FILES	= $(addprefix $(SRCS_DIR), main.cpp ) \
+				$(addprefix $(STRUCT_DIR), a_server.cpp \
+											server.cpp \
+											location.cpp) \
+				$(addprefix $(CORE_DIR), server_core.cpp \
+										responder.cpp) \
 				$(addprefix $(UTILS_DIR), utils.cpp) \
 				$(addprefix $(PARSER_DIR), parser.cpp)
 

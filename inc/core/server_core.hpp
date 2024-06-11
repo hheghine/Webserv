@@ -1,11 +1,13 @@
 #ifndef SERVER_CORE_HPP
 # define SERVER_CORE_HPP
 
-# include "webserv.hpp"
 # include "parser.hpp"
-# include "server.hpp"
+# include "responder.hpp"
 # include <list>
 # include <cstring>
+
+namespace wb
+{
 
 class ServerCore {
 	public:
@@ -27,7 +29,9 @@ class ServerCore {
 		std::vector<Server *>	_servers;
 		std::vector<Listener>	_listen_sockets;
 		std::list<int>			_client_sockets;
-		int						_num;
+			int					_num;
+		Responder				_responder;
+
 
 	private:
 		void _create_listen_sockets();
@@ -35,5 +39,7 @@ class ServerCore {
 
 
 };
+
+}
 
 #endif

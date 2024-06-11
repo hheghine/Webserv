@@ -6,6 +6,9 @@
 # include <arpa/inet.h>
 # include "a_server.hpp"
 
+namespace wb
+{
+
 typedef std::map<std::string, std::vector<u_short> > hosts_map;
 typedef std::map<std::string, std::vector<u_short> >::iterator hosts_it;
 typedef std::map<std::string, std::vector<u_short> >::const_iterator const_host_it;
@@ -35,7 +38,6 @@ class Server : public AServer {
 	public:
 		void set_server_name(const svector& line);
 		void set_hosts(const svector& line);
-
 		const hosts_map& get_hosts_map() const;
 
 	private:
@@ -43,5 +45,7 @@ class Server : public AServer {
 		void		add_universal_ports(const std::string& ip);
 
 };
+
+}
 
 #endif

@@ -1,6 +1,8 @@
 #include "a_server.hpp"
 #include <filesystem>
 
+using namespace wb;
+
 AServer::AServer()
 	: _get(false)
 	, _post(false)
