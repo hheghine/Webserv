@@ -27,24 +27,18 @@ void ServerCore::run(const std::string& filename)
 		{
 			if (FD_ISSET(_listen_sockets[i].socket, &read_fd))
 				_create_client_sockets(_listen_sockets[i], _read_fd);
+			// else if (FD_ISSET(_listen_sockets[i].socket, &write_fd))
+			// 	_create_client_sockets(_listen_sockets[i], _write_fd);
 		}
 
-		for(size_t i = 0; i < _listen_sockets.size(); ++i)
+		for (std::list<int>::iterator it = _client_sockets.begin(); \
+				it != _client_sockets.end(); ++it)
 		{
-			if (FD_ISSET(_listen_sockets[i].socket, &write_fd))
-				_create_client_sockets(_listen_sockets[i], _write_fd);
-		}
-
-		for(size_t i = 0; i < _read_fd.size(); ++i)
-		{
-			int ret = recv(_read_fd[i], _responder._buff, BUFFER, MSG_DONTWAIT);
+			int ret = recv(*it, _responder._buff, BUFFER, MSG_DONTWAIT);
 			if (ret < 0)
 				continue ;
-		}
 
-		for(size_t i = 0; i < _write_fd.size(); ++i)
-		{
-			int ret = send(_write_fd[i], _responder._buff, BUFFER, MSG_DONTWAIT);
+			ret = send(*it, _responder._buff, BUFFER, MSG_DONTWAIT);
 			if (ret < 0)
 				continue ;
 		}
@@ -67,7 +61,6 @@ void ServerCore::_create_listen_sockets()
 		for (const_host_it it = map.begin(); it != map.end(); ++it)
 		{
 			_listen_sockets.push_back(Listener());
-			// in_addr_t host = inet_addr((it->first).c_str());
 			_init_listen_socket(it->first, map[it->first], idx);
 			idx ++;
 		}
@@ -134,8 +127,8 @@ void ServerCore::_create_client_sockets(const Listener& listener, std::vector<in
 
 	vec.push_back(fd);
 
+	fcntl(fd, F_SETFL, O_NONBLOCK);
 	_client_sockets.push_back(fd);
-	fcntl(fd, O_NONBLOCK);
 
 	if (fd > _num)
 		_num = fd + 1;

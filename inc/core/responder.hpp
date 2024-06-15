@@ -31,7 +31,7 @@ class Responder {
 		std::map<int, fd_data>	_host_fd_map;
 
 	public:
-			char*				_buff[BUFFER];
+			char*				_buff[BUFFER]; // later gonna be private, no getter is needed
 		fd_set&	get_master();
 		fd_set& get_exception_fd();
 };
