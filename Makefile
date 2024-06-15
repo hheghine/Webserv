@@ -50,6 +50,8 @@ INCLUDES	=	-Iinc \
 					-Iinc/utils \
 					-Iinc/core \
 
+HEADER_FILES = $(shell find inc -name '*.hpp')
+
 CXX			= @c++
 CXXFLAGS 	= -g3 -Wall -Wextra -Werror -std=c++98 $(INCLUDES) -fsanitize=address
 
@@ -61,7 +63,7 @@ NAME 		= webserv
 
 all : $(NAME)
 
-$(NAME) : $(OBJS_DIR) $(OBJS) Makefile
+$(NAME) : $(OBJS_DIR) $(OBJS) Makefile $(HEADER_FILES)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
 	@printf "$(COLOR_6)%15s Compilation of $(END)$(WHITE)$(NAME)$(COLOR_6) terminated $(END)$(WHITE)$(BLINK)[$(COLOR_6)$(BLINK)success$(BLINK)$(WHITE)]$(END)\n\n"
 	
