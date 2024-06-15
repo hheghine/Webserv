@@ -31,10 +31,13 @@ class ServerCore {
 		std::list<int>			_client_sockets;
 			int					_num;
 		Responder				_responder;
+		std::vector<int>		_read_fd;
+		std::vector<int>		_write_fd;
 
 
 	private:
 		void _create_listen_sockets();
+		void _create_client_sockets(const Listener& listener, std::vector<int>& vec);
 		void _init_listen_socket(const std::string& ip, const std::vector<u_short>& ports, int idx);
 
 

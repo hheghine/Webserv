@@ -27,13 +27,13 @@ class Responder {
 	private:
 		std::vector<Server *>&	_servers;
 			fd_set				_master;
-			fd_set				_write_master;
+			fd_set				_exception_fd;
 		std::map<int, fd_data>	_host_fd_map;
-			char*				_buff[BUFFER];
 
 	public:
+			char*				_buff[BUFFER];
 		fd_set&	get_master();
-		
+		fd_set& get_exception_fd();
 };
 
 }
