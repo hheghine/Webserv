@@ -108,3 +108,10 @@ void utils::ip_check(const std::string& ip)
 	if (dot != 3)
 		throw std::invalid_argument("invalid ip: " + ip);
 }
+
+std::string utils::size_t_to_string(size_t value)
+{
+	std::ostringstream os;
+	os << value;
+	return os.str();
+}

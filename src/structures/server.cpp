@@ -18,7 +18,6 @@ void Server::set_server_name(const svector& line)
 		throw std::invalid_argument("syntax error: " + line.at(0));
 
 	_server_name = line.at(1);
-	std::cout << "server_name: " << _server_name << std::endl; 
 }
 
 const hosts_map& Server::get_hosts_map() const

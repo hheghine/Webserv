@@ -8,11 +8,29 @@ ServerCore::ServerCore()
 	, _responder(_servers)
 {}
 
+/***********************TEMPORARY***********************/
+std::string read_html_file(const std::string& filename)
+{
+	std::ifstream file(filename.c_str());
+	if (!file.is_open()) {
+		throw std::runtime_error("Unable to open HTML file");
+	}
+
+	std::stringstream buffer;
+	buffer << file.rdbuf();
+	return buffer.str();
+}
+/**********************************************************/
+
+
+
 void ServerCore::run(const std::string& filename)
 {
 	Parser p(filename, this->_servers);
 
 	_create_listen_sockets();
+
+	std::string html_content = read_html_file("www/index.html");
 
 	while (1) //_num
 	{
@@ -30,12 +48,10 @@ void ServerCore::run(const std::string& filename)
 			}
 		}
 
-		// if (_client_sockets.empty())
-		// 	std::cout << "DATARKA !" << std::endl;
-
 		for (std::list<int>::iterator it = _client_sockets.begin(); \
 				it != _client_sockets.end(); ++it)
 		{
+
 			if (FD_ISSET(*it, &read_fd) && !_responder.ready_to_send(*it))
 			{
 				_responder.action(*it);
@@ -52,6 +68,18 @@ void ServerCore::run(const std::string& filename)
 			// ret = send(*it, _responder._buff, BUFFER, MSG_DONTWAIT);
 			// if (ret < 0)
 			// 	continue ;
+
+			/***************************TEMPORARY***************************/
+			std::string response = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: " +
+			utils::size_t_to_string(html_content.size()) + "\r\n\r\n" + html_content;
+
+			send(*it, response.c_str(), response.size(), 0);
+			close(*it);
+			FD_CLR(*it, &_responder.get_master());
+			it = _client_sockets.erase(it);
+			if (it == _client_sockets.end())
+				break;
+			/****************************************************************/
 		}
 	}
 }

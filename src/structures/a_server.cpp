@@ -31,7 +31,6 @@ void AServer::set_root(const svector& line)
 		return ;
 	}
 	_root = "www/" + *it;
-	std::cout << "root: " << _root << std::endl;
 }
 
 void AServer::set_index(const svector& line)
@@ -63,7 +62,6 @@ void AServer::set_index(const svector& line)
 		else
 		{
 			_index = fpath;
-			std::cout << "index: " << _index << std::endl;
 			return ;
 		}
 	}
@@ -86,7 +84,6 @@ void AServer::set_methods(const svector& line)
 			return ;
 		}
 	}
-	std::cout << "get, post, delete: " << _get << _post << _delete << std::endl;
 }
 
 void AServer::set_autoindex(const svector& line)
@@ -102,5 +99,4 @@ void AServer::set_autoindex(const svector& line)
 		_autoindex = false;
 	else
 		throw std::invalid_argument("syntax error: unknown character: " + *it);
-	std::cout << "autoindex: " << _autoindex << std::endl;
 }

@@ -62,9 +62,9 @@ void Responder::start_session(int fd)
 	{
 		FD_CLR(fd, &_master);
 		close(fd);
-		std::cout << RED << "FD [ " << fd << " ] CLOSED !!" << std::endl;
+		std::cout << GRN << "fd [ " << fd << " ] closed !" << CRST << std::endl;
 		return ;
 	}
-	std::cout << "REQUEST >>>>>>>>>>>>>>>>>>>>\n" << _buff << std::endl;
+	std::cout << "\nREQUEST >>>>>>>>>>>>>>>>>>>>\n" << _buff << std::endl;
 
 }

@@ -37,6 +37,8 @@ std::string	extract_str_before(const std::string& line, char c);
 std::string	extract_str_after(const std::string& line, char c);
 void		ip_check(const std::string& ip);
 
+std::string size_t_to_string(size_t value);
+
 };
 
 }

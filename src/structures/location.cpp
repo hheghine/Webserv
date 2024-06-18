@@ -15,7 +15,6 @@ void Location::set_modifier(const svector& line)
 		throw std::invalid_argument("syntax error: wrong location block");
 
 	_modifier = *it;
-	std::cout << "modifier: " << _modifier << std::endl;
 }
 
 void Location::set_redirection(const svector& line)
@@ -24,5 +23,4 @@ void Location::set_redirection(const svector& line)
 		throw std::invalid_argument("syntax error: wrong location block");
 	
 	_redirection = *(line.begin() + 1);
-	std::cout << "redirection: " << _redirection << std::endl;
 }
