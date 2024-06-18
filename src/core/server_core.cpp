@@ -130,7 +130,8 @@ void ServerCore::_init_listen_socket(const std::string& ip, const std::vector<u_
 		display_time();
 		std::cout << MAIN << "\t[ WEBSERV  ]" << CRST << " listen socket [ "  << MAIN \
 		<< _listen_sockets[idx].socket << CRST << " ] port: " << MAIN << *it \
-		<< CRST << " " << addressIn.sin_port << " host: " << ip << " " << addressIn.sin_addr.s_addr << std::endl;
+		<< CRST << " " << addressIn.sin_port << " host: " << MAIN << ip << CRST \
+		<< " " << addressIn.sin_addr.s_addr << std::endl;
 
 		int opt = 1;
 		setsockopt(_listen_sockets[idx].socket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
