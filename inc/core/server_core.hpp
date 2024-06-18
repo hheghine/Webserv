@@ -38,7 +38,7 @@ class ServerCore {
 	private:
 		void _create_listen_sockets();
 		void _create_client_sockets(const Listener& listener, std::vector<int>& vec);
-		void _init_listen_socket(const std::string& ip, const std::vector<u_short>& ports, int idx);
+		void _init_listen_socket(const std::string& ip, const std::vector<u_short>& ports, int& idx);
 
 
 };

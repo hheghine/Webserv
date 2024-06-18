@@ -14,7 +14,6 @@ void ServerCore::run(const std::string& filename)
 
 	_create_listen_sockets();
 
-
 	while (1) //_num
 	{
 		fd_set read_fd = _responder.get_master();
@@ -26,21 +25,33 @@ void ServerCore::run(const std::string& filename)
 		for(size_t i = 0; i < _listen_sockets.size(); ++i)
 		{
 			if (FD_ISSET(_listen_sockets[i].socket, &read_fd))
+			{
 				_create_client_sockets(_listen_sockets[i], _read_fd);
-			// else if (FD_ISSET(_listen_sockets[i].socket, &write_fd))
-			// 	_create_client_sockets(_listen_sockets[i], _write_fd);
+			}
 		}
+
+		// if (_client_sockets.empty())
+		// 	std::cout << "DATARKA !" << std::endl;
 
 		for (std::list<int>::iterator it = _client_sockets.begin(); \
 				it != _client_sockets.end(); ++it)
 		{
-			int ret = recv(*it, _responder._buff, BUFFER, MSG_DONTWAIT);
-			if (ret < 0)
-				continue ;
+			if (FD_ISSET(*it, &read_fd) && !_responder.ready_to_send(*it))
+			{
+				_responder.action(*it);
+			}
 
-			ret = send(*it, _responder._buff, BUFFER, MSG_DONTWAIT);
-			if (ret < 0)
-				continue ;
+			if (FD_ISSET(*it, &write_fd) && _responder.ready_to_send(*it))
+			{
+				_responder.action(*it);
+			}
+			// int ret = recv(*it, _responder._buff, BUFFER, MSG_DONTWAIT);
+			// if (ret < 0)
+			// 	continue ;
+
+			// ret = send(*it, _responder._buff, BUFFER, MSG_DONTWAIT);
+			// if (ret < 0)
+			// 	continue ;
 		}
 	}
 }
@@ -53,26 +64,27 @@ ServerCore::~ServerCore()
 
 void ServerCore::_create_listen_sockets()
 {
+	int idx = -1;
+	_listen_sockets.reserve(3);
+	
 	for (int i = 0; i < (int)_servers.size(); ++i)
 	{
 		hosts_map map = _servers[i]->get_hosts_map();
 
-		int idx = 0;
 		for (const_host_it it = map.begin(); it != map.end(); ++it)
-		{
-			_listen_sockets.push_back(Listener());
 			_init_listen_socket(it->first, map[it->first], idx);
-			idx ++;
-		}
 	}
 }
 
-void ServerCore::_init_listen_socket(const std::string& ip, const std::vector<u_short>& ports, int idx)
+void ServerCore::_init_listen_socket(const std::string& ip, const std::vector<u_short>& ports, int& idx)
 {
 	in_addr_t host = inet_addr(ip.c_str());
 
 	for (std::vector<u_short>::const_iterator it = ports.begin(); it != ports.end(); ++it)
 	{
+		_listen_sockets.push_back(Listener());
+		idx ++;
+
 		struct sockaddr address;
 		struct sockaddr_in& addressIn = reinterpret_cast<struct sockaddr_in&>(address);
 
@@ -81,6 +93,7 @@ void ServerCore::_init_listen_socket(const std::string& ip, const std::vector<u_
 		addressIn.sin_family = AF_INET;
 		addressIn.sin_port = htons(*it);
 		addressIn.sin_addr.s_addr = host;
+
 
 		_listen_sockets[idx].port = addressIn.sin_port;
 		_listen_sockets[idx].host = addressIn.sin_addr.s_addr;
@@ -128,6 +141,8 @@ void ServerCore::_create_client_sockets(const Listener& listener, std::vector<in
 	vec.push_back(fd);
 
 	fcntl(fd, F_SETFL, O_NONBLOCK);
+    FD_SET(fd, &_responder.get_master());
+	_responder.add_to_map(fd, addressIn.sin_port, addressIn.sin_addr.s_addr);
 	_client_sockets.push_back(fd);
 
 	if (fd > _num)

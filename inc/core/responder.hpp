@@ -10,6 +10,9 @@
 namespace wb
 {
 
+enum session_status
+{ NONE, SEND, SENDBODY };
+
 struct fd_data
 {
 	in_addr_t	_ip;
@@ -17,6 +20,8 @@ struct fd_data
 	int			_fd;
 	int			_status;
 	int			_code_resp;
+	std::string _response;
+	ssize_t		_bytes_read;
 	// ...
 };
 
@@ -28,12 +33,18 @@ class Responder {
 		std::vector<Server *>&	_servers;
 			fd_set				_master;
 			fd_set				_exception_fd;
-		std::map<int, fd_data>	_host_fd_map;
+		std::map<int, fd_data>	_fd_host_map;
 
 	public:
 			char				_buff[BUFFER]; // later gonna be private, no getter is needed
 		fd_set&	get_master();
-		fd_set& get_exception_fd();
+		fd_set&	get_exception_fd();
+
+		void	add_to_map(const int& fd, const u_short& port, const in_addr_t& host);
+		bool	ready_to_send(int fd);
+
+		void	action(int fd);
+		void	start_session(int fd);
 };
 
 }
