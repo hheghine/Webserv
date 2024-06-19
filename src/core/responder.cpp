@@ -67,4 +67,31 @@ void Responder::start_session(int fd)
 	}
 	std::cout << "\nREQUEST >>>>>>>>>>>>>>>>>>>>\n" << _buff << std::endl;
 
+	parse_html_request(data, _buff);
+
+}
+
+void Responder::parse_html_request(fd_data& data, const std::string& buffer)
+{
+	std::cout << "\n\nPARSED REQUEST >>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
+	std::stringstream ss(buffer);
+	std::string tmp;
+
+	ss >> data._request_type >> data._file_path >> data._protocol;
+
+	std::cout << "REQ: " << data._request_type << std::endl;
+	std::cout << "PATH: " << data._file_path << std::endl;
+	std::cout << "HTTP PROTOCOL: " << data._protocol << std::endl;
+
+	ss >> tmp;
+	tmp.clear();
+	ss >> tmp;
+	std::string ip = utils::extract_str_before(tmp, ':');
+	data._ip = inet_addr(ip.c_str());
+
+	std::string port = utils::extract_str_after(tmp, ':');
+	data._port = htons(utils::extract_port(port));
+
+	std::cout << ip << " " << data._ip << " " << port << " " << data._port << std::endl;
+
 }
