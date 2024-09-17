@@ -52,17 +52,12 @@ void ServerCore::run(const std::string& filename)
 				it != _client_sockets.end(); ++it)
 		{
 
+			
 			/***************************TEMPORARY***************************/
-			std::string response = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: " +
+			std::string response = "HTTP/1.1 200 OK\r\nContent-Type: ''\r\nContent-Length: " +
 			utils::size_t_to_string(html_content.size()) + "\r\n\r\n" + html_content;
-
-			send(*it, response.c_str(), response.size(), 0);
-			// close(*it);
-			// FD_CLR(*it, &_responder.get_master());
-			// it = _client_sockets.erase(it);
-			// if (it == _client_sockets.end())
-			// 	break;
-			/****************************************************************/
+			
+			// if ()
 
 			if (FD_ISSET(*it, &read_fd) && !_responder.ready_to_send(*it))
 			{
@@ -73,6 +68,12 @@ void ServerCore::run(const std::string& filename)
 			{
 				_responder.action(*it);
 			}
+
+			// if ()
+
+			cgiParse(this, "/cgi/bin/cgi.py?a=b&b=c");
+
+			send(*it, response.c_str(), response.size(), 0);
 			// int ret = recv(*it, _responder._buff, BUFFER, MSG_DONTWAIT);
 			// if (ret < 0)
 			// 	continue ;
@@ -81,6 +82,45 @@ void ServerCore::run(const std::string& filename)
 			// if (ret < 0)
 			// 	continue ;
 		}
+		
+		
+		
+		
+		// {
+
+		// 	/***************************TEMPORARY***************************/
+		// 	std::string response = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: " +
+		// 	utils::size_t_to_string(html_content.size()) + "\r\n\r\n" + html_content;
+
+		// 	int ret = recv(*it, _responder._buff, BUFFER, MSG_DONTWAIT);
+		// 	std::cout << "\n\nshya budet info\n" << std::endl;
+		// 	std::cout <<  _responder._buff << std::endl;
+		// 	close(*it);
+		// 	FD_CLR(*it, &_responder.get_master());
+		// 	it = _client_sockets.erase(it);
+		// 	if (it == _client_sockets.end())
+		// 		break;
+		// 	/****************************************************************/
+
+		// 	send(*it, response.c_str(), response.size(), 0);
+
+		// 	if (FD_ISSET(*it, &read_fd) && !_responder.ready_to_send(*it))
+		// 	{
+		// 		_responder.action(*it);
+		// 	}
+
+		// 	if (FD_ISSET(*it, &write_fd) && _responder.ready_to_send(*it))
+		// 	{
+		// 		_responder.action(*it);
+		// 	}
+		// 	// send(*it, _responder._buff, BUFFER, MSG_DONTWAIT);
+		// 	// int ret = recv(*it, _responder._buff, BUFFER, MSG_DONTWAIT);
+		// 	// if (ret < 0)
+		// 	// 	continue ;
+
+		// 	// if (ret < 0)
+		// 	// 	continue ;
+		// }
 	}
 }
 

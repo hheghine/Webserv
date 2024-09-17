@@ -53,6 +53,7 @@ void Responder::action(int fd)
 void Responder::start_session(int fd)
 {
 	fd_data& data = _fd_host_map[fd];
+
 	data._fd = fd;
 	data._response = "";
 	bzero(_buff, BUFFER);
@@ -95,3 +96,4 @@ void Responder::parse_html_request(fd_data& data, const std::string& buffer)
 	std::cout << ip << " " << data._ip << " " << port << " " << data._port << std::endl;
 
 }
+

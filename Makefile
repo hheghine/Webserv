@@ -40,7 +40,8 @@ SRC_FILES	= $(addprefix $(SRCS_DIR), main.cpp ) \
 											server.cpp \
 											location.cpp) \
 				$(addprefix $(CORE_DIR), server_core.cpp \
-										responder.cpp) \
+										responder.cpp \
+										cgi.cpp) \
 				$(addprefix $(UTILS_DIR), utils.cpp) \
 				$(addprefix $(PARSER_DIR), parser.cpp)
 
@@ -53,8 +54,7 @@ INCLUDES	=	-Iinc \
 HEADER_FILES = $(shell find inc -name '*.hpp')
 
 CXX			= @c++
-CXXFLAGS 	= -g3 -Wall -Wextra -std=c++98 $(INCLUDES) -fsanitize=address #-Werror
-
+CXXFLAGS 	= -g3 -Wall -Wextra -std=c++98 $(INCLUDES) #-fsanitize=address #-Werror
 
 OBJS_DIR	= .objects
 OBJS 		= $(SRC_FILES:%.cpp=$(OBJS_DIR)/%.o)

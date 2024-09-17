@@ -3,6 +3,7 @@
 
 # include "webserv.hpp"
 # include "server.hpp"
+// # include "server_core.hpp"
 # include <netinet/in.h>
 # include <sstream>
 
@@ -10,6 +11,8 @@
 
 namespace wb
 {
+
+class ServerCore;
 
 enum session_status
 { NONE, SEND, SENDBODY };
@@ -40,7 +43,7 @@ class Responder {
 		std::map<int, fd_data>	_fd_host_map;
 
 	public:
-			char				_buff[BUFFER]; // later gonna be private, no getter is needed
+		char	_buff[BUFFER]; // later gonna be private, no getter is needed
 		fd_set&	get_master();
 		fd_set&	get_exception_fd();
 

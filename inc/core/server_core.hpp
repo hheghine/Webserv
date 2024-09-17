@@ -9,6 +9,8 @@
 namespace wb
 {
 
+void	cgiParse(ServerCore *server, const std::string& url);
+
 class ServerCore {
 	public:
 		ServerCore();
@@ -29,7 +31,7 @@ class ServerCore {
 		std::vector<Server *>	_servers;
 		std::vector<Listener>	_listen_sockets;
 		std::list<int>			_client_sockets;
-			int					_num;
+		int					_num;
 		Responder				_responder;
 		std::vector<int>		_read_fd;
 		std::vector<int>		_write_fd;
