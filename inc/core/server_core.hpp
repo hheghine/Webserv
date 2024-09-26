@@ -5,6 +5,9 @@
 # include "responder.hpp"
 # include <list>
 # include <cstring>
+# include <sys/types.h>
+# include <sys/socket.h>
+# include <netdb.h>
 
 namespace wb
 {
@@ -14,10 +17,11 @@ void	cgiParse(ServerCore *server, const std::string& url);
 class ServerCore {
 	public:
 		ServerCore();
+		ServerCore(const std::vector<Server *>& _servers);
 		~ServerCore();
 
 	public:
-		void run(const std::string& filename);
+		void run();
 
 	private:
 
@@ -28,11 +32,11 @@ class ServerCore {
 	};
 
 	private:
+		int						_num;
 		std::vector<Server *>	_servers;
+		Responder				_responder;
 		std::vector<Listener>	_listen_sockets;
 		std::list<int>			_client_sockets;
-		int					_num;
-		Responder				_responder;
 		std::vector<int>		_read_fd;
 		std::vector<int>		_write_fd;
 

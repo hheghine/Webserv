@@ -22,20 +22,22 @@ namespace utils
 {
 
 /* checks if the file exists with specified permission */
-bool		file_exists(const std::string& filename, int flag);
+bool			file_exists(const std::string& filename, int flag);
 /* checks if the directory exists */
-bool		is_directory(const std::string& path);
+bool			is_directory(const std::string& path);
 /* splits the string and creates a vector */
-svector 	split_line(const std::string& line);
+svector 		split_line(const std::string& line);
 /* string to int secure converter */
-int			to_int(const std::string& line);
+int				to_int(const std::string& line);
+/* string to uint32_t secure converter */
+unsigned int	to_uint(const std::string& line);
 /* extracts u_short from string */
-u_short		extract_port(const std::string& line);
+u_short			extract_port(const std::string& line);
 /* extracts string before specified character */
-std::string	extract_str_before(const std::string& line, char c);
+std::string		extract_str_before(const std::string& line, char c);
 /* extracts string after specified character */
-std::string	extract_str_after(const std::string& line, char c);
-void		ip_check(const std::string& ip);
+std::string		extract_str_after(const std::string& line, char c);
+void			ip_check(const std::string& ip);
 
 std::string size_t_to_string(size_t value);
 

@@ -20,11 +20,14 @@ int	main(int ac, char** av)
 	? filename = "config/default.conf" \
 	: filename = av[1];
 
-	ServerCore* data = new ServerCore();
-
 	try
 	{
-		data->run(filename);
+		Parser p(filename);
+
+		ServerCore*	data = new ServerCore(p._servers);
+
+		data->run();
+		delete data;
 	}
 	catch (const std::exception& e)
 	{
@@ -34,5 +37,4 @@ int	main(int ac, char** av)
 		<< e.what() << CRST << std::endl;
 	}
 
-	delete data;
 }

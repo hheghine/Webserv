@@ -34,26 +34,28 @@ struct fd_data
 
 class Responder {
 	public:
-		Responder(std::vector<Server *> servers);
+		Responder();
+		Responder(const std::vector<Server *>& servers);
+		Responder& operator=(const Responder& other);
+		std::vector<Server *>	_servers;
 
 	private:
-		std::vector<Server *>&	_servers;
-			fd_set				_master;
-			fd_set				_exception_fd;
+		fd_set				_read_master;
+		fd_set				_write_master;
+		// fd_set				_exception_fd;
 		std::map<int, fd_data>	_fd_host_map;
 
 	public:
 		char	_buff[BUFFER]; // later gonna be private, no getter is needed
-		fd_set&	get_master();
-		fd_set&	get_exception_fd();
+		fd_set&	get_read_master();
+		fd_set&	get_write_master();
 
-		void	add_to_map(const int& fd, const u_short& port, const in_addr_t& host);
-		bool	ready_to_send(int fd);
-		void	action(int fd);
-		void	start_session(int fd);
-		void	parse_html_request(fd_data& data, const std::string& buffer);
-};
-
+		void		add_to_map(const int& fd, const u_short& port, const in_addr_t& host);
+		bool		ready_to_send(int fd);
+		void		action(std::string& resp, int fd);
+		std::string	start_session(int fd);
+		std::string	parse_html_request(fd_data& data, const std::string& buffer);
+	};
 }
 
 #endif

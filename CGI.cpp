@@ -1,6 +1,17 @@
-#include "parser.hpp"
-#include "webserv.hpp"
-#include "server_core.hpp"
-#include <errno.h>
-#include <unistd.h>
-#include <sys/wait.h>
+
+#include <strings.h>
+#include <sstream>
+#include <ios>
+#include <iostream>
+#include <fstream>
+
+int main()
+{
+	std::string a = "www/favicon.ico";
+	std::ifstream b(a.c_str());
+	std::stringstream ss;
+
+	ss << b.rdbuf();
+	std::cout << ss.str() << std::endl;
+	return (0);
+}

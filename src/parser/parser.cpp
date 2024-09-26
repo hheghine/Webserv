@@ -2,9 +2,8 @@
 
 using namespace wb;
 
-Parser::Parser(const std::string& filename, std::vector<Server *>& server)
+Parser::Parser(const std::string& filename)
 	: _filename(filename)
-	, _servers(server)
 {
 	parse();
 }

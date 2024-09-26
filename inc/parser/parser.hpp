@@ -22,7 +22,6 @@ class Parser {
 	private:
 		std::stack<char> 	_brackets;
 		std::string _filename;
-		std::vector<Server *>& _servers;
 
 	private:
 		void parse();
@@ -30,7 +29,8 @@ class Parser {
 		void parse_location_block(std::ifstream& file, const svector& location_vec, Location* location);
 
 	public:
-		Parser(const std::string& filename, std::vector<Server *>& servers);
+		std::vector<Server *> _servers;
+		Parser(const std::string& filename);
 };
 
 }

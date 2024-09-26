@@ -22,7 +22,7 @@ void Server::set_server_name(const svector& line)
 
 const hosts_map& Server::get_hosts_map() const
 {
-	return _hosts;
+	return (_hosts);
 }
 
 void Server::set_hosts(const svector& line)
@@ -50,9 +50,9 @@ void Server::set_hosts(const svector& line)
 		if (idx != std::string::npos)
 		{
 			utils::ip_check(*it);
-			if (std::find(_hosts[*it].begin(), _hosts[*it].end(), 80) \
+			if (std::find(_hosts[*it].begin(), _hosts[*it].end(), 7701) \
 			== _hosts[*it].end())
-				_hosts[*it].push_back(80);
+				_hosts[*it].push_back(7701);
 			add_universal_ports(*it);
 		}
 		else

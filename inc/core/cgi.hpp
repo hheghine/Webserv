@@ -6,6 +6,9 @@ namespace wb
 class CGI
 {
 	public:
+		CGI(const std::string& url);
+		~CGI();
+	public:
 		std::vector<char *>		_envVec;
 		char					**_env;
 		int						_pipe_fd[2];
@@ -15,7 +18,6 @@ class CGI
 		void	convert(/*this->env*/);
 		void	cgi(ServerCore *server);
 
-		CGI(const std::string& url);
 };
 
 

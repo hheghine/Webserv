@@ -27,13 +27,26 @@ svector utils::split_line(const std::string& line)
 
 	while (ss >> word)
 		vec.push_back(word);
-	return vec;
+	return (vec);
 }
 
 int utils::to_int(const std::string& line)
 {
-	std::stringstream ss(line);
-	int val = 0;
+	std::stringstream	ss(line);
+	int					val = 0;
+
+	ss >> val;
+
+	if (ss.fail() || !ss.eof())
+		throw std::invalid_argument("invalid argument: '" + line + "'");
+
+	return val;
+}
+
+unsigned int utils::to_uint(const std::string& line)
+{
+	std::stringstream	ss(line);
+	unsigned int		val = 0;
 
 	ss >> val;
 

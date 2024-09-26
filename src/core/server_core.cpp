@@ -1,91 +1,119 @@
 #include "server_core.hpp"
+#include <sys/time.h>
 
 using namespace wb;
 
 
 ServerCore::ServerCore()
 	: _num(0)
-	, _responder(_servers)
+	// , _responder(_servers)
+{}
+
+ServerCore::ServerCore(const std::vector<Server *>& _servers)
+	: _num(0)
+	, _servers(_servers)
+	, _responder(Responder(_servers))
 {}
 
 /***********************TEMPORARY***********************/
-std::string read_html_file(const std::string& filename)
-{
-	std::ifstream file(filename.c_str());
-	if (!file.is_open()) {
-		throw std::runtime_error("Unable to open HTML file");
-	}
 
-	std::stringstream buffer;
-	buffer << file.rdbuf();
-	return buffer.str();
-}
 /**********************************************************/
 
-
-
-void ServerCore::run(const std::string& filename)
+void ServerCore::run()
 {
-	Parser p(filename, this->_servers);
+	// std::cout << "this is : " << p._servers.size() << std::endl;
+	// this->_responder = Responder();
+	// this->_responder._servers = std::vector<Server *>();
+	// printf("%s\n", this->_servers[0]->_index.c_str());
+	
+	struct timeval	timeout;
 
+	timeout.tv_sec = 10;
 	_create_listen_sockets();
-
-	std::string html_content = read_html_file("www/index.html");
-
+	// std::string html_content = read_html_file("www/index.html");
 	while (1) //_num
 	{
-		fd_set read_fd = _responder.get_master();
-		fd_set write_fd = _responder.get_exception_fd();
+		try
+		{	
+			fd_set read_fd = _responder.get_read_master();
+			fd_set write_fd = _responder.get_write_master();
 
-		if ( select(_num, &read_fd, &write_fd, 0, 0) <= 0 )
-			continue ;
-		
-		for(size_t i = 0; i < _listen_sockets.size(); ++i)
-		{
-			if (FD_ISSET(_listen_sockets[i].socket, &read_fd))
-			{
-				_create_client_sockets(_listen_sockets[i], _read_fd);
-			}
-		}
-
-		for (std::list<int>::iterator it = _client_sockets.begin(); \
-				it != _client_sockets.end(); ++it)
-		{
+			printf("behind select\n");
+			if (select(this->_num, &read_fd, &write_fd, 0, &timeout))
+				continue ;
 
 			
-			/***************************TEMPORARY***************************/
-			std::string response = "HTTP/1.1 200 OK\r\nContent-Type: ''\r\nContent-Length: " +
-			utils::size_t_to_string(html_content.size()) + "\r\n\r\n" + html_content;
-			
-			// if ()
-
-			if (FD_ISSET(*it, &read_fd) && !_responder.ready_to_send(*it))
-			{
-				_responder.action(*it);
-			}
-
-			if (FD_ISSET(*it, &write_fd) && _responder.ready_to_send(*it))
-			{
-				_responder.action(*it);
-			}
-
-			// if ()
-
-			cgiParse(this, "/cgi/bin/cgi.py?a=b&b=c");
-
-			send(*it, response.c_str(), response.size(), 0);
-			// int ret = recv(*it, _responder._buff, BUFFER, MSG_DONTWAIT);
-			// if (ret < 0)
-			// 	continue ;
-
-			// ret = send(*it, _responder._buff, BUFFER, MSG_DONTWAIT);
-			// if (ret < 0)
-			// 	continue ;
 		}
+		catch(const std::exception& e)
+		{
+			std::cerr << e.what() << '\n';
+		}
+
 		
+
+
+/////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////
+		// // std::cout << "this are : " << this->_responder._servers.size() << std::endl;
+		// if ( select(_num, &read_fd, &write_fd, 0, 0) <= 0 )
+		// 	continue ;
 		
+		// for(size_t i = 0; i < _listen_sockets.size(); ++i)
+		// {
+		// 	if (FD_ISSET(_listen_sockets[i].socket, &read_fd))
+		// 	{
+		// 		_create_client_sockets(_listen_sockets[i], _read_fd);
+		// 	}
+		// }
+
+		// for (std::list<int>::iterator it = _client_sockets.begin(); \
+		// 		it != _client_sockets.end(); ++it)
+		// {
+		// 	/***************************TEMPORARY***************************/
+			
+			
+		// 	std::cout << "gde  : " <<  this->_responder._servers.size() << std::endl;
+			
+		// 	std::string response;
+		// 	// response = "HTTP/1.1 200 OK\r\nContent-Type: ''\r\nContent-Length: " +
+		// 	// utils::size_t_to_string(html_content.size()) + "\r\n\r\n" + html_content;
+
+		// 	// std::cout << html_content.size() << "-----------------------\n";
+		// 	// std::string response;
+		// 	// if ()
+		// 	if (FD_ISSET(*it, &read_fd) && !_responder.ready_to_send(*it))
+		// 	{
+		// 		_responder.action(response, *it);
+		// 	}
+
+		// 	if (FD_ISSET(*it, &write_fd) && _responder.ready_to_send(*it))
+		// 	{
+		// 		_responder.action(response, *it);
+		// 	}
+
+		// 	std::string sendresp = std::string("HTTP/1.1 200 OK\r\nContent-Type: ''\r\nContent-Length: " + utils::size_t_to_string(response.size())) + std::string("\r\n\r\n") + response;
+		// 	response = sendresp;
+		// 	// parseRequest();
+
+		// 	// if ()
+
+		// 	// cgiParse(this, "/cgi/bin/cgi.py?a=b&b=c");
+
+		// 	// response = 
+		// 	std::cout << "i want to send yoyuuuu: '" << response.c_str() << "'" << std::endl;
+		// 	send(*it, response.c_str(), response.size(), 0);
+		// 	// int ret = recv(*it, _responder._buff, BUFFER, MSG_DONTWAIT);
+		// 	// if (ret < 0)
+		// 	// 	continue ;
+
+		// 	// ret = send(*it, _responder._buff, BUFFER, MSG_DONTWAIT);
+		// 	// if (ret < 0)
+		// 	// 	continue ;
+		// }
+/////////////////////////////////////////////////////////////		
+
 		
-		
+/////////////////////////////////////////////////////////////
 		// {
 
 		// 	/***************************TEMPORARY***************************/
@@ -130,61 +158,94 @@ ServerCore::~ServerCore()
 		delete *it;
 }
 
+in_addr_t	convertToInetAddr(std::string host)
+{
+	in_addr_t	ret = 0;
+	in_addr_t	part = 0;
+	size_t		pos = 0;
+
+	for (size_t i = 0; i < 3; ++i)
+	{
+		pos = host.find_first_of('.');
+		if (pos == host.npos)
+			throw std::invalid_argument("Invalid IP address!");
+		part = utils::to_uint(host.substr(0, pos));
+		for (size_t j = 0; j < i; ++j)
+			part *= 256;
+		host = host.substr(pos + 1);
+		ret += part;
+	}
+	part = utils::to_uint(host);
+	ret += (part * 256 * 256 * 256);
+	return (ret);
+}
+
 void ServerCore::_create_listen_sockets()
 {
 	int idx = -1;
 	_listen_sockets.reserve(3);
 	
-	for (int i = 0; i < (int)_servers.size(); ++i)
+	for (size_t i = 0; i < _servers.size(); ++i)
 	{
 		hosts_map map = _servers[i]->get_hosts_map();
-
 		for (const_host_it it = map.begin(); it != map.end(); ++it)
 			_init_listen_socket(it->first, map[it->first], idx);
 	}
 }
 
-void ServerCore::_init_listen_socket(const std::string& ip, const std::vector<u_short>& ports, int& idx)
+void ServerCore::_init_listen_socket(\
+				const std::string& ip, \
+				const std::vector<u_short>& ports, \
+				int& idx)
 {
-	in_addr_t host = inet_addr(ip.c_str());
-
+	std::cout << "ports size: " << ports.size() << std::endl;
 	for (std::vector<u_short>::const_iterator it = ports.begin(); it != ports.end(); ++it)
 	{
+		std::cout << *it << std::endl;
 		_listen_sockets.push_back(Listener());
 		idx ++;
 
-		struct sockaddr address;
-		struct sockaddr_in& addressIn = reinterpret_cast<struct sockaddr_in&>(address);
+		struct addrinfo		hints;
+		struct addrinfo		*real;
 
-		memset(reinterpret_cast<char *>(&address), 0, sizeof(struct sockaddr));
+		hints.ai_family = AF_UNSPEC;
+		hints.ai_socktype = SOCK_STREAM;
+		hints.ai_flags = 0;
+		hints.ai_protocol = 0;
 
-		addressIn.sin_family = AF_INET;
-		addressIn.sin_port = htons(*it);
-		addressIn.sin_addr.s_addr = host;
+		if (getaddrinfo(ip.c_str(), utils::size_t_to_string(*it).c_str(), &hints, &real))
+			throw std::runtime_error("error: getaddrinfo");
 
-
-		_listen_sockets[idx].port = addressIn.sin_port;
-		_listen_sockets[idx].host = addressIn.sin_addr.s_addr;
 		_listen_sockets[idx].socket = socket(AF_INET, SOCK_STREAM, 0);
-
-		display_time();
-		std::cout << MAIN << "\t[ WEBSERV  ]" << CRST << " listen socket [ "  << MAIN \
-		<< _listen_sockets[idx].socket << CRST << " ] port: " << MAIN << *it \
-		<< CRST << " " << addressIn.sin_port << " host: " << MAIN << ip << CRST \
-		<< " " << addressIn.sin_addr.s_addr << std::endl;
+		struct addrinfo *element;
+		for (element = real; element != NULL; element = element->ai_next)
+		{
+			// std::cout << utils::size_t_to_string(*it).c_str() << std::endl;
+			std::cout << "binding on ip " << ip << " and port " << *it << std::endl;
+			int success = !bind(_listen_sockets[idx].socket, \
+								element->ai_addr, element->ai_addrlen);
+			if (success)
+				break ;
+		}
+		if (element == NULL)
+			throw std::runtime_error("error: bind at address " + ip + \
+			" at port" + utils::size_t_to_string(*it));
 
 		int opt = 1;
 		setsockopt(_listen_sockets[idx].socket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 
-		if (bind(_listen_sockets[idx].socket, &address, sizeof(address)) < 0)
-			throw std::runtime_error("error: bind");
+		display_time();
+		std::cout << MAIN << "\t[ WEBSERV  ]" << CRST << " listen socket [ "  << MAIN \
+		<< _listen_sockets[idx].socket << CRST << " ] port: " << MAIN << *it \
+		<< CRST << " " /* << addressIn.sin_port*/ << " host: " << MAIN << ip << CRST \
+		<< " " << std::endl;
 
 		if (listen(_listen_sockets[idx].socket, 32))
 			throw std::runtime_error("error: listen");
 
-		FD_SET(_listen_sockets[idx].socket, &_responder.get_master());
+		FD_SET(_listen_sockets[idx].socket, &_responder.get_read_master());
 
-		if (_listen_sockets[idx].socket > _num)
+		if (_listen_sockets[idx].socket >= _num)
 			_num = _listen_sockets[idx].socket + 1;
 	}
 }
@@ -210,7 +271,7 @@ void ServerCore::_create_client_sockets(const Listener& listener, std::vector<in
 	vec.push_back(fd);
 
 	fcntl(fd, F_SETFL, O_NONBLOCK);
-    FD_SET(fd, &_responder.get_master());
+    FD_SET(fd, &_responder.get_read_master());
 	_responder.add_to_map(fd, addressIn.sin_port, addressIn.sin_addr.s_addr);
 	_client_sockets.push_back(fd);
 

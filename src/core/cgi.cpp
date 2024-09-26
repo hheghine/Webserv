@@ -7,17 +7,17 @@ CGI::CGI(const std::string& url)
 {
 	// inch vor baner vor /cgi-bin/* arandznana env ic
 	
-	_argv[0] = (char *)("/usr/bin/python3");
+	_argv[0] = (char *)("bin/python3");
 	_argv[1] = (char *)("www/cgi-bin/cgi.py");
 	_argv[2] = NULL;
 	_env = NULL;
 
 }
 
-// CGI::~CGI()
-// {
+CGI::~CGI()
+{
 
-// }
+}
 
 // char **createEnv(wb::ServerCore *server)
 // {
@@ -69,19 +69,11 @@ void	wb::cgiParse(wb::ServerCore *server, /*request parser*/const std::string& u
 	pid_t	cpid;
 
 	if (pipe(cgi->_pipe_fd) < 0)
-	{
-		std::cout << "Pipe failed" << std::endl;
-		exit (1);
-	}
-
+		throw std::runtime_error("Pipe failed");
 	cpid = fork();
 	if (cpid == 0)
 	{
 		cgi->convert();
-
-		// argv[0] = (char *)("/usr/bin/python3");
-		// argv[1] = (char *)("www/cgi-bin/cgi.py");
-		
 		// if (dup2(cgi->_pipe_fd[1], STDOUT_FILENO) < 0)
 		// {
 		// 	std::cout << "Dup2 failed" << std::endl;
