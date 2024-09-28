@@ -30,6 +30,8 @@ void ServerCore::run()
 
 	timeout.tv_sec = 10;
 	_create_listen_sockets();
+	for (int i = 0; i < this->_listen_sockets.size(); ++i)
+		std::cout << this->_listen_sockets[i].socket << std::endl;
 	// std::string html_content = read_html_file("www/index.html");
 	while (1) //_num
 	{
@@ -38,11 +40,27 @@ void ServerCore::run()
 			fd_set read_fd = _responder.get_read_master();
 			fd_set write_fd = _responder.get_write_master();
 
-			printf("behind select\n");
-			if (select(this->_num, &read_fd, &write_fd, 0, &timeout))
+			// printf("behind select\n");
+			if (select(this->_num, &read_fd, &write_fd, 0, 0))
+			{
+				std::cout << "aaa\n";
 				continue ;
-
+			}
 			
+			for (int sock = 3; sock < this->_num; ++sock)
+			{
+				std::vector<Listener>::iterator elem = std::find(_listen_sockets.begin(), _listen_sockets.end(), Listener(sock));
+				if (elem != _listen_sockets.end())
+				{
+					_create_client_sockets(*elem, _read_fd);
+				}
+			}
+
+			// for (std::vector<Listener>::iterator it = this->_listen_sockets.begin(); \
+			// it != this->_listen_sockets.end(); ++it)
+			// {
+			// 	if (FD_ISSET(*it))
+			// }
 		}
 		catch(const std::exception& e)
 		{
@@ -253,28 +271,26 @@ void ServerCore::_init_listen_socket(\
 void ServerCore::_create_client_sockets(const Listener& listener, std::vector<int>& vec)
 {
 	struct sockaddr address;
-	struct sockaddr_in& addressIn = reinterpret_cast<struct sockaddr_in&>(address);
+	// struct sockaddr_in& addressIn = reinterpret_cast<struct sockaddr_in&>(address);
 
-	memset(reinterpret_cast<char *>(&address), 0, sizeof(struct sockaddr));
+	// memset(reinterpret_cast<char *>(&address), 0, sizeof(struct sockaddr));
 
-	addressIn.sin_family = AF_INET;
-	addressIn.sin_port = listener.port;
-	addressIn.sin_addr.s_addr = listener.host;
+	// addressIn.sin_family = AF_INET;
+	// addressIn.sin_port = listener.port;
+	// addressIn.sin_addr.s_addr = listener.host;
 
 	socklen_t brat = sizeof(address);
-
 	int fd = accept(listener.socket, &address, &brat);
-
 	if (fd < 0)
 		return ;
-
+	// printf ("%d %d\n", addressIn.sin_port, addressIn.sin_addr);
 	vec.push_back(fd);
 
 	fcntl(fd, F_SETFL, O_NONBLOCK);
     FD_SET(fd, &_responder.get_read_master());
-	_responder.add_to_map(fd, addressIn.sin_port, addressIn.sin_addr.s_addr);
+	// _responder.add_to_map(fd, addressIn.sin_port, addressIn.sin_addr.s_addr);
 	_client_sockets.push_back(fd);
 
-	if (fd > _num)
+	if (fd >= _num)
 		_num = fd + 1;
 }

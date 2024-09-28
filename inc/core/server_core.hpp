@@ -26,9 +26,16 @@ class ServerCore {
 	private:
 
 	struct Listener {
+		
+		Listener() {}
+		Listener(int socket) : socket(socket) {}
 		int			socket;
 		u_short		port;
 		in_addr_t	host;
+		bool		operator==(const Listener& right)
+		{
+			return (this->socket == right.socket);
+		}
 	};
 
 	private:

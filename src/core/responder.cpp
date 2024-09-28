@@ -73,7 +73,7 @@ std::string Responder::start_session(int fd)
 
 	data._fd = fd;
 	data._response = "";
-	bzero(_buff, BUFFER);
+	// bzero(_buff, BUFFER);
 	data._bytes_read = recv(fd, &_buff, BUFFER, 0);
 
 	if (data._bytes_read <= 0)
