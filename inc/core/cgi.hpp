@@ -15,7 +15,9 @@ class CGI
 		char					*_argv[3];
 
 		// CGI();
-		void	convert(/*this->env*/);
+		void	urlParser(const std::string& url);
+		void	createEnv(std::string str);
+		void	convertEnv(/*this->env*/);
 		void	cgi(ServerCore *server);
 
 };

@@ -30,49 +30,51 @@ void ServerCore::run()
 
 	timeout.tv_sec = 10;
 	_create_listen_sockets();
-	for (int i = 0; i < this->_listen_sockets.size(); ++i)
+	for (size_t i = 0; i < this->_listen_sockets.size(); ++i)
 		std::cout << this->_listen_sockets[i].socket << std::endl;
 	// std::string html_content = read_html_file("www/index.html");
 	while (1) //_num
 	{
-		try
-		{	
+		// try
+		// {	
 			fd_set read_fd = _responder.get_read_master();
 			fd_set write_fd = _responder.get_write_master();
-
-			// printf("behind select\n");
-			if (select(this->_num, &read_fd, &write_fd, 0, 0))
+			int res = select(this->_num, &read_fd, &write_fd, 0, 0);
+			if (res <= 0)
 			{
-				std::cout << "aaa\n";
+				// perror("lave: ");
+				std::cout << "select failed with: " << res << std::endl;;
 				continue ;
 			}
-			
 			for (int sock = 3; sock < this->_num; ++sock)
 			{
+				cgiParse(this, "www/cgi-bin/cgi.py?a=b&c=d");
+				printf ("bbbb\n");
 				std::vector<Listener>::iterator elem = std::find(_listen_sockets.begin(), _listen_sockets.end(), Listener(sock));
-				if (elem != _listen_sockets.end())
+				if (FD_ISSET(sock, &read_fd) && elem != _listen_sockets.end())
 				{
 					_create_client_sockets(*elem, _read_fd);
+					FD_SET(sock, &_responder.get_read_master());
+				}
+				if (FD_ISSET(sock, &read_fd) && !_responder.ready_to_send(sock))
+				{
+					std::string	response;
+					_responder.action(response, sock);
 				}
 			}
-
-			// for (std::vector<Listener>::iterator it = this->_listen_sockets.begin(); \
-			// it != this->_listen_sockets.end(); ++it)
-			// {
-			// 	if (FD_ISSET(*it))
-			// }
-		}
-		catch(const std::exception& e)
-		{
-			std::cerr << e.what() << '\n';
-		}
+			
+		// }
+		// catch(const std::exception& e)
+		// {
+		// 	std::cerr << e.what() << '\n';
+		// }
 
 		
 
 
 /////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////
-		// // std::cout << "this are : " << this->_responder._servers.size() << std::endl;
+		// std::cout << "this are : " << this->_responder._servers.size() << std::endl;
 		// if ( select(_num, &read_fd, &write_fd, 0, 0) <= 0 )
 		// 	continue ;
 		
@@ -120,13 +122,13 @@ void ServerCore::run()
 		// 	// response = 
 		// 	std::cout << "i want to send yoyuuuu: '" << response.c_str() << "'" << std::endl;
 		// 	send(*it, response.c_str(), response.size(), 0);
-		// 	// int ret = recv(*it, _responder._buff, BUFFER, MSG_DONTWAIT);
-		// 	// if (ret < 0)
-		// 	// 	continue ;
+			// int ret = recv(*it, _responder._buff, BUFFER, MSG_DONTWAIT);
+			// if (ret < 0)
+			// 	continue ;
 
-		// 	// ret = send(*it, _responder._buff, BUFFER, MSG_DONTWAIT);
-		// 	// if (ret < 0)
-		// 	// 	continue ;
+			// ret = send(*it, _responder._buff, BUFFER, MSG_DONTWAIT);
+			// if (ret < 0)
+			// 	continue ;
 		// }
 /////////////////////////////////////////////////////////////		
 
@@ -235,6 +237,7 @@ void ServerCore::_init_listen_socket(\
 			throw std::runtime_error("error: getaddrinfo");
 
 		_listen_sockets[idx].socket = socket(AF_INET, SOCK_STREAM, 0);
+		fcntl(_listen_sockets[idx].socket, F_SETFL, O_NONBLOCK);
 		struct addrinfo *element;
 		for (element = real; element != NULL; element = element->ai_next)
 		{
@@ -246,8 +249,11 @@ void ServerCore::_init_listen_socket(\
 				break ;
 		}
 		if (element == NULL)
+		{
+			perror("a:");
 			throw std::runtime_error("error: bind at address " + ip + \
-			" at port" + utils::size_t_to_string(*it));
+			" on port" + utils::size_t_to_string(*it));
+		}
 
 		int opt = 1;
 		setsockopt(_listen_sockets[idx].socket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
@@ -270,7 +276,6 @@ void ServerCore::_init_listen_socket(\
 
 void ServerCore::_create_client_sockets(const Listener& listener, std::vector<int>& vec)
 {
-	struct sockaddr address;
 	// struct sockaddr_in& addressIn = reinterpret_cast<struct sockaddr_in&>(address);
 
 	// memset(reinterpret_cast<char *>(&address), 0, sizeof(struct sockaddr));
@@ -279,11 +284,12 @@ void ServerCore::_create_client_sockets(const Listener& listener, std::vector<in
 	// addressIn.sin_port = listener.port;
 	// addressIn.sin_addr.s_addr = listener.host;
 
-	socklen_t brat = sizeof(address);
-	int fd = accept(listener.socket, &address, &brat);
+	struct sockaddr	address;
+	socklen_t		brat = sizeof(address);
+	int				fd = accept(listener.socket, &address, &brat);
+
 	if (fd < 0)
 		return ;
-	// printf ("%d %d\n", addressIn.sin_port, addressIn.sin_addr);
 	vec.push_back(fd);
 
 	fcntl(fd, F_SETFL, O_NONBLOCK);
