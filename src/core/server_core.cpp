@@ -35,6 +35,9 @@ void ServerCore::run()
 	// std::string html_content = read_html_file("www/index.html");
 	while (1) //_num
 	{
+
+		nayel nuyn host ov tarber serverner karan linen te che
+		ham el nuyn host nuyn portov
 		// try
 		// {	
 			fd_set read_fd = _responder.get_read_master();
@@ -42,19 +45,23 @@ void ServerCore::run()
 			int res = select(this->_num, &read_fd, &write_fd, 0, 0);
 			if (res <= 0)
 			{
-				// perror("lave: ");
-				std::cout << "select failed with: " << res << std::endl;;
+				std::cout << "select failed with: " << res << std::endl;
 				continue ;
 			}
-			for (int sock = 3; sock < this->_num; ++sock)
+			int num = _num; 
+			for (int sock = 3; sock < num; ++sock)
 			{
-				cgiParse(this, "www/cgi-bin/cgi.py?a=b&c=d");
+				// cgiParse(this, "www/cgi-bin/cgi.py?a=b&c=d");
 				printf ("bbbb\n");
 				std::vector<Listener>::iterator elem = std::find(_listen_sockets.begin(), _listen_sockets.end(), Listener(sock));
-				if (FD_ISSET(sock, &read_fd) && elem != _listen_sockets.end())
+				if (elem != _listen_sockets.end() && \
+					std::find(_client_sockets.begin(), _client_sockets.end(), sock) == _client_sockets.end() && \
+					FD_ISSET(sock, &read_fd))
 				{
+					printf ("socket is %d\n", sock);
 					_create_client_sockets(*elem, _read_fd);
-					FD_SET(sock, &_responder.get_read_master());
+					FD_CLR(sock, &read_fd);
+					// FD_SET(sock, &_responder.get_read_master());
 				}
 				if (FD_ISSET(sock, &read_fd) && !_responder.ready_to_send(sock))
 				{
@@ -288,6 +295,7 @@ void ServerCore::_create_client_sockets(const Listener& listener, std::vector<in
 	socklen_t		brat = sizeof(address);
 	int				fd = accept(listener.socket, &address, &brat);
 
+	printf ("and his fd aft accept is %d\n", fd);
 	if (fd < 0)
 		return ;
 	vec.push_back(fd);

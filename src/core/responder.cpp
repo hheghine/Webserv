@@ -73,7 +73,6 @@ std::string Responder::start_session(int fd)
 
 	data._fd = fd;
 	data._response = "";
-	// bzero(_buff, BUFFER);
 	data._bytes_read = recv(fd, &_buff, BUFFER, 0);
 
 	if (data._bytes_read <= 0)
@@ -81,7 +80,7 @@ std::string Responder::start_session(int fd)
 		FD_CLR(fd, &_read_master);
 		close(fd);
 		std::cout << GRN << "fd [ " << fd << " ] closed !" << CRST << std::endl;
-		return "";
+		return ("");
 	}
 	std::cout << "\nREQUEST >>>>>>>>>>>>>>>>>>>>\n" << _buff << std::endl;
 
@@ -116,12 +115,12 @@ std::string Responder::parse_html_request(fd_data& data, const std::string& buff
 	tmp.clear();
 	ss >> tmp;
 	std::string ip = utils::extract_str_before(tmp, ':');
-	data._ip = inet_addr(ip.c_str());
-
+	if (ip == "localhost")
+		ip = "127.0.0.1";
 	std::string port = utils::extract_str_after(tmp, ':');
 	data._port = htons(utils::extract_port(port));
 
-	std::cout << ip << " " << data._ip << " " << port << " " << data._port << std::endl;
+	std::cout << ip << " " << " " << port << " " << data._port << std::endl;
 	// data._ip = inet_addr(ip.c_str());
 	// std::cout << ip << " " << data._ip << " " << port << " " << data._port << std::endl;
 	std::cout << data._file_path << std::endl;

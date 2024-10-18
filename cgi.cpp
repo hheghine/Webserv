@@ -43,7 +43,6 @@ int main()
 		arg[1] = (char *)("www/cgi-bin/cgi.py");
 		arg[2] = NULL;
 
-		// printf("nixuyasebe\n");
 		int err = execve (*arg, arg, env);
 		// int err = execve (argv[0], argv, env);
 		perror("ya");

@@ -11,8 +11,8 @@ class CGI
 	public:
 		std::vector<char *>		_envVec;
 		char					**_env;
-		int						_pipe_fd[2];
 		char					*_argv[3];
+		int						_pipe_fd[2];
 
 		// CGI();
 		void	urlParser(const std::string& url);

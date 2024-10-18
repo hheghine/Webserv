@@ -19,12 +19,14 @@ int	main(int ac, char** av)
 	ac < 2 \
 	? filename = "config/default.conf" \
 	: filename = av[1];
-
+	
+	ServerCore*	data;
+	
 	try
 	{
 		Parser p(filename);
 
-		ServerCore*	data = new ServerCore(p._servers);
+		data = new ServerCore(p._servers);
 
 		data->run();
 		delete data;
@@ -35,6 +37,7 @@ int	main(int ac, char** av)
 		std::cout << "\n" << errno << std::endl;
 		std::cout << RED << "\t[    ✘     ] " \
 		<< e.what() << CRST << std::endl;
+		delete data;
 	}
 
 }
