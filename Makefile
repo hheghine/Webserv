@@ -31,12 +31,19 @@ PRINT_NAME = printf "\n$(COLOR_1) %4s $(NAME_LINE_1) %4s $(COLOR_2)$(NAME_LINE_2
 
 SRCS_DIR	= src/
 LOGGER_DIR	= $(SRCS_DIR)Logger/
+CONFIG_DIR	= $(SRCS_DIR)Config/
+UTILS_DIR	= $(SRCS_DIR)Utils/
+
 
 SRC_FILES	= $(addprefix $(SRCS_DIR), main.cpp ) \
-				$(addprefix $(LOGGER_DIR), Logger.cpp)
+				$(addprefix $(LOGGER_DIR), Logger.cpp) \
+				$(addprefix $(CONFIG_DIR), ListenConfig.cpp ServerBlock.cpp) \
+				$(addprefix $(UTILS_DIR), Utils.cpp)
 
 INCLUDES	=	-Iinc \
-					-Isrc/Logger
+					-Isrc/Logger \
+					-Isrc/Config \
+					-Isrc/Utils
 
 HEADER_FILES = $(shell find inc -name '*.h')
 
@@ -69,6 +76,9 @@ $(OBJS_DIR) :
 #	@printf "$(COLOR_6)%21s Creating $(END)$(WHITE)$(OBJS_DIR)/$(LOGGER_DIR)...\n"
 #	@sleep 0.1
 	@mkdir -p $(OBJS_DIR)/$(LOGGER_DIR)
+	@mkdir -p $(OBJS_DIR)/$(CONFIG_DIR)
+	@mkdir -p $(OBJS_DIR)/$(UTILS_DIR)
+
 
 $(OBJS) : $(OBJS_DIR)/%.o : %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@

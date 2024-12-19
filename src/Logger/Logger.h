@@ -50,7 +50,7 @@ public:
 
 private:
     static std::string generateLogFileName();
-	static std::string formater(LogLevel lvl, const char *msg, std::string time, bool colored = true);
+	static std::string formatter(LogLevel lvl, const char *msg, std::string time, bool colored = true);
 	static void printLog(LogLevel lvl, const char *msg, std::string time);
 	static void writeLogInFile(LogLevel level, const char *msg, std::string time);
 

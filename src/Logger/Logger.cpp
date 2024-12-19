@@ -44,7 +44,7 @@ std::string Logger::generateLogFileName()
 	return (std::string(buffer));
 }
 
-std::string Logger::formater(LogLevel lvl, const char *msg, std::string time, bool colored)
+std::string Logger::formatter(LogLevel lvl, const char *msg, std::string time, bool colored)
 {
 	std::string formatedMsg;
 
@@ -62,7 +62,7 @@ std::string Logger::formater(LogLevel lvl, const char *msg, std::string time, bo
 
 void Logger::printLog(LogLevel lvl, const char *msg, std::string time)
 {
-	std::cout << formater(lvl, msg, time) << std::endl;
+	std::cout << formatter(lvl, msg, time) << std::endl;
 }
 
 void Logger::writeLogInFile(LogLevel level, const char *msg, std::string time)
@@ -74,7 +74,7 @@ void Logger::writeLogInFile(LogLevel level, const char *msg, std::string time)
 		return;
 	}
 	int file = open(("logs/" + _logFileName).c_str(), O_CREAT | O_WRONLY | O_APPEND, 0666);
-	std::string log = formater(level, msg, time, false);
+	std::string log = formatter(level, msg, time, false);
 	write(file, log.c_str(), log.size());
 	write(file, "\n", 1);
 	close(file);
