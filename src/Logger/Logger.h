@@ -20,7 +20,7 @@
 /* Default parameters */
 const bool DEFAULT_LOG_STATE = true;
 const bool DEFAULT_LOG_FILE_STATE = false;
-const bool DEFAULT_LOG_DEBUG_STATE = false;
+const bool DEFAULT_LOG_DEBUG_STATE = true;
 
 const std::string logLevelString[] = { "FATAL", "ERROR", "WARNING", "INFO", "TRACE", "DEBUG" };
 const std::string logLevelColor[] = { C_RED, C_RED, C_YELLOW, C_GREEN, C_MAGENTA, C_CYAN };

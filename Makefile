@@ -33,11 +33,11 @@ SRCS_DIR	= src/
 LOGGER_DIR	= $(SRCS_DIR)Logger/
 CONFIG_DIR	= $(SRCS_DIR)Config/
 UTILS_DIR	= $(SRCS_DIR)Utils/
-
-
+    
 SRC_FILES	= $(addprefix $(SRCS_DIR), main.cpp ) \
 				$(addprefix $(LOGGER_DIR), Logger.cpp) \
-				$(addprefix $(CONFIG_DIR), ListenConfig.cpp ServerBlock.cpp) \
+				$(addprefix $(CONFIG_DIR), ListenConfig.cpp ServerBlock.cpp \
+											Location.cpp ConfigParser.cpp) \
 				$(addprefix $(UTILS_DIR), Utils.cpp)
 
 INCLUDES	=	-Iinc \
@@ -48,7 +48,7 @@ INCLUDES	=	-Iinc \
 HEADER_FILES = $(shell find inc -name '*.h')
 
 CXX			= @c++
-CXXFLAGS 	= -g3 -Wall -Wextra -std=c++98 $(INCLUDES) -fsanitize=address -Werror
+CXXFLAGS 	= -g3 -Wall -Wextra -std=c++98 $(INCLUDES) -fsanitize=address #-Werror
 
 
 OBJS_DIR	= .objects

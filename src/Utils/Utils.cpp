@@ -62,3 +62,10 @@ std::string Utils::ullToStr(unsigned long long ull)
 	oss << ull;
 	return (oss.str());
 }
+
+std::string Utils::intToString(int value)
+{
+	std::ostringstream oss;
+	oss << value;
+	return oss.str();
+}

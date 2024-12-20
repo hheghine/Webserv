@@ -38,4 +38,4 @@
 #define RESPONSE_FLAGS EPOLLIN | EPOLLRDHUP | EPOLLERR | EPOLLOUT // When the response is ready and we have something to send via socket
 #define MAX_EVENTS 100
 
-#endif // CONSTANTS_H
+#endif // CONSTANTS_HCONSTANTS_H
