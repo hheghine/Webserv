@@ -25,6 +25,7 @@ std::string                 unsignedIntToString(unsigned int value);
 unsigned long long          strToUll(std::string clientMaxBodySize);
 std::string                 ullToStr(unsigned long long ull);
 std::string                 intToString(int value);
+int                         protectedCall(int ret, std::string msg, bool isFatal = true);
 
 }
 

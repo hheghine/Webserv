@@ -69,3 +69,15 @@ std::string Utils::intToString(int value)
 	oss << value;
 	return oss.str();
 }
+
+int Utils::protectedCall(int ret, std::string msg, bool isFatal)
+{
+	if (ret < 0)
+	{
+		if (isFatal)
+			Logger::log(FATAL, msg.c_str());
+		else
+			Logger::log(ERROR, msg.c_str());
+	}
+	return ret;
+}

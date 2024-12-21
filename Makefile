@@ -33,17 +33,20 @@ SRCS_DIR	= src/
 LOGGER_DIR	= $(SRCS_DIR)Logger/
 CONFIG_DIR	= $(SRCS_DIR)Config/
 UTILS_DIR	= $(SRCS_DIR)Utils/
+SERVER_DIR	= $(SRCS_DIR)Server/
     
 SRC_FILES	= $(addprefix $(SRCS_DIR), main.cpp ) \
 				$(addprefix $(LOGGER_DIR), Logger.cpp) \
 				$(addprefix $(CONFIG_DIR), ListenConfig.cpp ServerBlock.cpp \
 											Location.cpp ConfigParser.cpp) \
-				$(addprefix $(UTILS_DIR), Utils.cpp)
+				$(addprefix $(UTILS_DIR), Utils.cpp) \
+				$(addprefix $(SERVER_DIR), Server.cpp Socket.cpp) \
 
 INCLUDES	=	-Iinc \
 					-Isrc/Logger \
 					-Isrc/Config \
-					-Isrc/Utils
+					-Isrc/Utils \
+					-Isrc/Server
 
 HEADER_FILES = $(shell find inc -name '*.h')
 
@@ -78,6 +81,7 @@ $(OBJS_DIR) :
 	@mkdir -p $(OBJS_DIR)/$(LOGGER_DIR)
 	@mkdir -p $(OBJS_DIR)/$(CONFIG_DIR)
 	@mkdir -p $(OBJS_DIR)/$(UTILS_DIR)
+	@mkdir -p $(OBJS_DIR)/$(SERVER_DIR)
 
 
 $(OBJS) : $(OBJS_DIR)/%.o : %.cpp
