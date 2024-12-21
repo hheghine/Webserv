@@ -40,7 +40,7 @@ SRC_FILES	= $(addprefix $(SRCS_DIR), main.cpp ) \
 				$(addprefix $(CONFIG_DIR), ListenConfig.cpp ServerBlock.cpp \
 											Location.cpp ConfigParser.cpp) \
 				$(addprefix $(UTILS_DIR), Utils.cpp) \
-				$(addprefix $(SERVER_DIR), Server.cpp Socket.cpp) \
+				$(addprefix $(SERVER_DIR), Server.cpp Socket.cpp Client.cpp) \
 
 INCLUDES	=	-Iinc \
 					-Isrc/Logger \
