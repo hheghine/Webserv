@@ -28,12 +28,12 @@ Socket::Socket(int fd, std::string ip, unsigned int port, std::vector<ServerBloc
 	}
 }
 
-Socket::Socket(const Socket& src)
+Socket::Socket(const Socket& other)
 {
-	*this = src;
+	*this = other;
 }
 
-Socket::~Socket(void)
+Socket::~Socket()
 {
 	if (this->_fd != -1)
 		Utils::protectedCall(close(this->_fd), "Faild to close socket", false);

@@ -31,12 +31,11 @@ public:
     Server();
     ~Server();
 
-private:
+public:
     void init();
     void run();
     void stop();
 
-public:
     int                     getState(void) const { return _state; }
 	int                     getEpollFD(void) const { return _epollFd; }
 	ConfigParser&           getConfigParser(void) { return _parser; }
