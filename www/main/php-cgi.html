@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Color</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Orbitron', sans-serif;
+            background-color: #111;
+            color: white;
+            text-align: center;
+            background-image: url('https://www.transparenttextures.com/patterns/starry-night.png'); /* Optional background */
+            background-size: cover;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            padding: 2rem;
+            border-radius: 20px;
+            background-color: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 15px rgba(0, 255, 153, 0.7);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #ff4b5c;
+            text-shadow: 0 0 20px rgba(255, 75, 92, 0.7);
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-size: 1.2rem;
+            color: #00ff99;
+            text-shadow: 0 0 10px rgba(0, 255, 153, 0.7);
+            margin-bottom: 10px;
+        }
+
+        select {
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            background-color: #222;
+            border: 2px solid #00ff99;
+            border-radius: 10px;
+            color: #fff;
+            margin-bottom: 20px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        select:focus {
+            background-color: #333;
+            border-color: #ff4b5c;
+        }
+
+        .button {
+            background-color: #ff4b5c;
+            color: #111;
+            padding: 12px 30px;
+            border: 2px solid #ff4b5c;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: #ff1f2a;
+            border-color: #ff1f2a;
+            transform: scale(1.1) translateY(-3px);
+        }
+
+        .button:active {
+            transform: scale(0.98);
+        }
+
+        /* Confetti */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Select a Color to Change the Page Background</h2>
+        <form action="./cgi-bin/display_color.sh" method="post">
+            <label for="color">Choose a color:</label>
+            <select id="color" name="color">
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+                <option value="yellow">Yellow</option>
+                <option value="purple">Purple</option>
+            </select>
+            <br><br>
+            <input class="button" type="submit" value="Submit">
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+    <script>
+        const jsConfetti = new JSConfetti();
+
+        jsConfetti.addConfetti({
+            emojis: ['🌌', '🚀', '✨'],
+        });
+    </script>
+
+</body>
+</html>

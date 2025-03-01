@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Futuristic Form</title>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;500;600&display=swap');
+
+		body {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			background: linear-gradient(135deg, #0a0a23, #1c1c3c);
+			font-family: 'Orbitron', sans-serif;
+			overflow: hidden;
+			margin: 0;
+			color: #fff;
+		}
+
+		.container {
+			width: 100%;
+			max-width: 800px;
+			padding: 2rem;
+			background: rgba(0, 0, 0, 0.7);
+			border-radius: 20px;
+			box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+			text-align: center;
+			backdrop-filter: blur(10px);
+		}
+
+		h2 {
+			font-size: 2.5rem;
+			color: #00ffcc;
+			margin-bottom: 1.5rem;
+			text-shadow: 0 0 10px rgba(0, 255, 255, 0.6), 0 0 20px rgba(0, 255, 255, 0.4);
+		}
+
+		label {
+			font-size: 1.2rem;
+			color: #fff;
+			margin-bottom: 0.5rem;
+			display: block;
+		}
+
+		input {
+			width: 100%;
+			padding: 1rem;
+			border: 2px solid #00ffcc;
+			border-radius: 10px;
+			background-color: #121212;
+			color: #00ffcc;
+			font-size: 1rem;
+			margin-bottom: 1rem;
+			outline: none;
+			transition: all 0.3s ease;
+		}
+
+		input:focus {
+			border-color: #00b3b3;
+			box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+		}
+
+		.button {
+			border: none;
+			padding: 1rem 3rem;
+			background: linear-gradient(135deg, #00ffcc, #00b3b3);
+			border-radius: 25px;
+			font-size: 1.2rem;
+			font-weight: bold;
+			color: #121212;
+			cursor: pointer;
+			transition: all 0.3s ease;
+		}
+
+		.button:hover {
+			transform: scale(1.1);
+			box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+		}
+
+		/* Confetti */
+		canvas {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 9999;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>Enter Your Info in Space</h2>
+		<form action="./cgi-bin/user_info.py" method="post">
+			<label for="name">Name:</label>
+			<input type="text" id="name" name="name" required>
+			<br>
+			<label for="age">Age:</label>
+			<input type="number" id="age" name="age" required>
+			<br>
+			<input class="button" type="submit" value="Launch">
+		</form>
+	</div>
+
+	<script src="confetti.js" defer></script>
+	<script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+	<script>
+		const jsConfetti = new JSConfetti()
+
+		// Spacey confetti effect
+		jsConfetti.addConfetti({
+			colors: ['#00ffcc', '#00b3b3', '#ffffff'],
+			confettiNumber: 200,
+			origin: { x: 0.5, y: 0.5 }
+		})
+	</script>
+</body>
+</html>

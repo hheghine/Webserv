@@ -1,0 +1,150 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Orbitron', sans-serif;
+}
+
+body {
+	background-color: #0a0a0a;
+	color: #fff;
+	line-height: 1.6;
+}
+
+.container {
+	width: 90%;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.mainTitle {
+	text-align: center;
+	margin-bottom: 2rem;
+}
+
+.logo42 {
+	width: 100px;
+}
+
+.title {
+	font-size: 4rem;
+	color: #00ff99;
+	text-shadow: 0 0 10px rgba(0, 255, 153, 0.7);
+}
+
+.bigLine {
+	border-top: 2px solid #00ff99;
+	margin: 2rem 0;
+}
+
+.titleSection {
+	text-align: center;
+	font-size: 2rem;
+	color: #00ff99;
+	margin-bottom: 1rem;
+}
+
+.features {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 2rem;
+	justify-items: center;
+}
+
+.wrapper {
+	background: #111;
+	padding: 20px;
+	border-radius: 15px;
+	box-shadow: 0 0 20px rgba(0, 255, 153, 0.5);
+	width: 80%; /* Adjusting the wrapper width */
+	text-align: center;
+	position: relative; /* Added for positioning the buttons */
+}
+
+.subtitle {
+	font-size: 1.5rem;
+	color: #00ff99;
+	text-transform: uppercase;
+	margin-bottom: 1rem;
+}
+
+.line {
+	border-bottom: 1px solid #00ff99;
+	width: 50%;
+	margin: 10px auto;
+}
+
+/* Button Styles */
+.button {
+	background-color: #00ff99;
+	color: #111;
+	padding: 14px 30px;
+	border: 2px solid #00ff99;
+	border-radius: 30px; /* Rounded buttons */
+	cursor: pointer;
+	transition: all 0.3s ease;
+	margin-top: 15px;
+	font-size: 1.2rem;
+	position: relative;
+}
+
+.button::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 30px;
+	background: rgba(0, 255, 153, 0.5);
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+.button:hover::before {
+	opacity: 1; /* Glowing effect on hover */
+}
+
+.button:hover {
+	background-color: #00cc77;
+	border-color: #00cc77;
+	transform: scale(1.1) translateY(-3px); /* Elevated hover effect */
+}
+
+a {
+	text-decoration: none;
+}
+
+footer {
+	text-align: center;
+	padding: 1rem 0;
+	background-color: #111;
+}
+
+footer p {
+	color: #888;
+}
+
+/* Bonus Section */
+.bonus {
+	background: #1a1a1a;
+	border-radius: 10px;
+	padding: 20px;
+}
+
+.footer {
+	font-size: 0.9rem;
+	color: #888;
+}
+
+@media (max-width: 768px) {
+	.features {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (max-width: 480px) {
+	.features {
+		grid-template-columns: 1fr;
+	}
+}

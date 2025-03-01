@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>403 Forbidden - Custom Error</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: 'Orbitron', sans-serif;
+		}
+
+		body {
+			background: #111;
+			color: #fff;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			text-align: center;
+			background-image: url('https://www.transparenttextures.com/patterns/starry-night.png'); /* Optional background */
+			background-size: cover;
+			overflow: hidden;
+		}
+
+		h1 {
+			font-size: 5rem;
+			color: #ff4b5c;
+			text-shadow: 0 0 20px rgba(255, 75, 92, 0.7);
+			margin-bottom: 20px;
+		}
+
+		p {
+			font-size: 1.5rem;
+			color: #00ff99;
+			text-shadow: 0 0 10px rgba(0, 255, 153, 0.7);
+			margin-bottom: 40px;
+		}
+
+		.button {
+			background-color: #ff4b5c;
+			color: #111;
+			padding: 12px 30px;
+			border: 2px solid #ff4b5c;
+			border-radius: 30px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			font-size: 1.2rem;
+			text-decoration: none;
+		}
+
+		.button:hover {
+			background-color: #ff1f2a;
+			border-color: #ff1f2a;
+			transform: scale(1.1) translateY(-3px);
+		}
+
+		.button:active {
+			transform: scale(0.98);
+		}
+
+		.footer {
+			position: absolute;
+			bottom: 20px;
+			font-size: 1rem;
+			color: #888;
+		}
+
+	</style>
+</head>
+<body>
+
+	<h1>403 Forbidden</h1>
+	<p>Oops! You don't have permission to access this page.</p>
+	<a href="/" class="button">Go Back to Homepage</a>
+
+	<div class="footer">
+		<p>© 2025 - Webserv</p>
+	</div>
+
+</body>
+</html>

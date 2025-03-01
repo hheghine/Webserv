@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Alien Themed Page</title>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+		/* General container styling */
+		.container{
+			--max-width: 1000px;
+			--padding: 1rem;
+			width: min(var(--max-width), 100% - (var(--padding) * 1.2));
+			margin-inline: auto;
+			text-align: center;
+			color: #ffffff;
+		}
+
+		body {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			background: radial-gradient(circle, rgba(50,50,50,1) 0%, rgba(0,0,0,1) 100%);
+			font-family: 'Inter', sans-serif;
+			color: #ffffff;
+			overflow: hidden;
+			position: relative;
+		}
+
+		/* Add a glow effect for the text */
+		h1 {
+			font-size: 3rem;
+			font-weight: bold;
+			text-shadow: 0 0 10px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.7), 0 0 30px rgba(0, 255, 255, 0.7);
+		}
+
+		/* confetti */
+		canvas {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 9999;
+			pointer-events: none;
+		}
+
+		/* Add alien-style glow to the container */
+		.container {
+			background-color: rgba(0, 0, 0, 0.5);
+			border-radius: 10px;
+			padding: 2rem;
+			box-shadow: 0 0 15px 5px rgba(0, 255, 255, 0.5);
+		}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Bravo, you are on the Alien page in the path ./www/alien!</h1>
+		<p>This is an intergalactic message from your extraterrestrial host.</p>
+	</div>
+	<script src="confetti.js" defer></script>
+	<script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+	<script>
+		const jsConfetti = new JSConfetti()
+
+		jsConfetti.addConfetti({
+			emojis: ['👽'],
+			colors: ['#00FF00', '#00CC00', '#009900'],
+			angle: 60,
+			emojiSize: 50,
+			confettiNumber: 100
+		})
+	</script>
+</body>
+</html>

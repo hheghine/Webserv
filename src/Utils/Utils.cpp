@@ -475,23 +475,24 @@ std::string getMimeType(const std::string &path)
  * @brief build the html page with the files in the directory
  */
 std::string buildPage(std::vector<std::string> files, std::string path, std::string root){
-	std::string page;
-	std::string header = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Listing Directory</title><style>@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');body{padding: 0;margin: 0;box-sizing: border-box;font-family: 'Inter', sans-serif;background-color: #f9f9f9;}.container{--max-width: 1215px;--padding: 1rem;width: min(var(--max-width), 100% - (var(--padding) * 1.2));margin-inline: auto;}a{list-style-type: none;padding: 0;color: black;}.bigLine{width: 100%;height: 1px;background-color: #e0e0e0;margin: 1rem 0;}ul li{list-style-type: '▪️';padding: .2rem 1rem;margin: 0;}a:visited{color: #9e0999;}</style></head>";
-	std::string body = "<body><div class=\"container\"><h1>Index of " + path.substr(root.size()) + "</h1><div class=\"bigLine\"></div><ul>";
-	
-	// ajoute les lien au body
-	for (std::vector<std::string>::iterator it = files.begin(); it != files.end(); ++it)
-	{
-		body += "<li><a href=\"";
-		body += *it;
-		body += "\">";
-		body += *it;
-		body += "</a></li>";
-	}
-	body += "</ul><div class=\"bigLine\"></div></div></body></html>";
-	
-	return header + body;
+    std::string page;
+    std::string header = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Listing Directory</title><style>@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');body{padding: 0;margin: 0;box-sizing: border-box;font-family: 'Inter', sans-serif;background-color: #0a0a0a;color: #fff;text-align: center;display: flex;justify-content: center;align-items: center;height: 100vh;background-image: url('https://www.transparenttextures.com/patterns/starry-night.png');background-size: cover;background-attachment: fixed;overflow: hidden;}h1{font-size: 3rem;color: #ff4b5c;text-shadow: 0 0 15px rgba(255, 75, 92, 0.7);margin-bottom: 2rem;}a{color: white;text-decoration: none;background-color: #121212;padding: 10px 20px;margin: 10px;border-radius: 10px;box-shadow: 0 0 15px rgba(0, 255, 153, 0.6);transition: transform 0.3s ease;}a:hover{opacity: 0.9;transform: scale(1.05);}ul{list-style-type: none;padding: 0;display: flex;flex-direction: column;align-items: center;}ul li{margin: 5px 0;width: 100%;display: flex;justify-content: center;}div.container{background-color: rgba(0, 0, 0, 0.7);padding: 2rem;border-radius: 15px;width: 90%;max-width: 800px;box-shadow: 0 0 25px rgba(255, 75, 92, 0.7);}</style></head>";
+    std::string body = "<body><div class=\"container\"><h1>Index of " + path.substr(root.size()) + "</h1><ul>";
+    
+    // Add links to the body
+    for (std::vector<std::string>::iterator it = files.begin(); it != files.end(); ++it)
+    {
+        body += "<li><a href=\"";
+        body += *it;
+        body += "\">";
+        body += *it;
+        body += "</a></li>";
+    }
+    body += "</ul></div></body></html>";
+    
+    return header + body;
 }
+
 
 
 
