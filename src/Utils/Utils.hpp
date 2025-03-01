@@ -56,6 +56,9 @@ std::string getErrorMessage(int code);
 std::string intToHexa(ssize_t num);
 std::string getMimeType(const std::string &path);
 
+//
+int my_mkstemp(char *tmpPath);
+
 
 // epoll utils
 void addSocketEpoll(int epollFD, int sockFD, uint32_t flags);

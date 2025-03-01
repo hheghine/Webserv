@@ -61,7 +61,7 @@ INCLUDES	=	-Iinc \
 HEADER_FILES = $(shell find inc -name '*.hpp')
 
 CXX			= @c++
-CXXFLAGS 	= -g3 -Wall -Wextra -std=c++98 $(INCLUDES) -fsanitize=address #-Werror
+CXXFLAGS 	= -g3 -Wall -Wextra -std=c++98 $(INCLUDES) -fsanitize=address -Werror
 
 
 OBJS_DIR	= .objects

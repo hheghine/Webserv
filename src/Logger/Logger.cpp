@@ -1,5 +1,5 @@
 #include "Logger.hpp"
-#include <stdarg.h>
+#include <cstdarg>
 /*  */
 /* ---------------------------- STATIC VARIABLE ---------------------------- */
 /*  */
@@ -145,20 +145,20 @@ void Logger::_printLog(Logger::LogLevel level, const char *msg, std::string time
  * @param msg The message to log
  * @param time The time of the message
  */
-void Logger::_writeLogInFile(Logger::LogLevel level, const char *msg, std::string time)
-{
-	// Create directory if not exist
-	if (mkdir("logs", 0777) == -1 && errno != EEXIST)
-	{
-		std::cerr << "Error: " << std::strerror(errno) << std::endl;
-		return;
-	}
-	int file = open(("logs/" + Logger::getLogFileName()).c_str(), O_CREAT | O_WRONLY | O_APPEND, 0666);
-	std::string log = Logger::_formater(level, msg, time, false);
-	write(file, log.c_str(), log.size());
-	write(file, "\n", 1);
-	close(file);
-}
+// void Logger::_writeLogInFile(Logger::LogLevel level, const char *msg, std::string time)
+// {
+// 	// Create directory if not exist
+// 	if (mkdir("logs", 0777) == -1 && errno != EEXIST)
+// 	{
+// 		std::cerr << "Error: " << std::strerror(errno) << std::endl;
+// 		return;
+// 	}
+// 	int file = open(("logs/" + Logger::getLogFileName()).c_str(), O_CREAT | O_WRONLY | O_APPEND, 0666);
+// 	std::string log = Logger::_formater(level, msg, time, false);
+// 	write(file, log.c_str(), log.size());
+// 	write(file, "\n", 1);
+// 	close(file);
+// }
 
 /*  */
 /* ---------------------------------- MAIN ---------------------------------- */
@@ -181,9 +181,9 @@ void Logger::log(Logger::LogLevel level, const char *msg, ...)
 	const int initialBufferSize = 1024;
 	std::vector<char> buffer(initialBufferSize);
 
-	va_list args;
+	std::va_list args;
 	va_start(args, msg);
-	int size = vsnprintf(buffer.data(), buffer.size(), msg, args);
+	int size = std::vsnprintf(buffer.data(), buffer.size(), msg, args);
 	va_end(args);
 
 	// Handling error
@@ -197,7 +197,7 @@ void Logger::log(Logger::LogLevel level, const char *msg, ...)
 	{
 		buffer.resize(buffer.size() * 2);
 		va_start(args, msg);
-		size = vsnprintf(buffer.data(), buffer.size(), msg, args);
+		size = std::vsnprintf(buffer.data(), buffer.size(), msg, args);
 		va_end(args);
 	}
 
@@ -210,8 +210,8 @@ void Logger::log(Logger::LogLevel level, const char *msg, ...)
 
 	Logger::_printLog(level, buffer.data(), timeBuffer);
 
-	if (Logger::getLogFileState() == true)
-		Logger::_writeLogInFile(level, buffer.data(), timeBuffer);
+	// if (Logger::getLogFileState() == true)
+	// 	Logger::_writeLogInFile(level, buffer.data(), timeBuffer);
 	
 	// throw if level is FATAL
 	if (level == Logger::FATAL)

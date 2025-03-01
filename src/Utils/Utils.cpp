@@ -1,5 +1,37 @@
 #include "Utils.hpp"
 
+int my_mkstemp(char *tmpPath) {
+    static const char letters[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    static const int numLetters = sizeof(letters) - 1;
+    static const int maxAttempts = 100;
+    
+    if (!tmpPath) {
+        return -1; // Invalid pointer
+    }
+
+    std::srand(static_cast<unsigned int>(std::time(0))); // Seed for randomness
+
+    for (int attempt = 0; attempt < maxAttempts; ++attempt) {
+        std::stringstream ss;
+        ss << "tmp";
+
+        // Generate a random 6-character suffix
+        for (int i = 0; i < 6; ++i) {
+            ss << letters[std::rand() % numLetters];
+        }
+
+        std::strcpy(tmpPath, ss.str().c_str()); // Copy to tmpPath
+
+        std::ofstream file(tmpPath, std::ios::out | std::ios::app);
+        if (file) {
+            file.close();
+            return 1; // Success
+        }
+    }
+
+    return -1; // Failed to create a unique file
+}
+
 /*
 ** @brief Create a temporary file
 **
@@ -7,22 +39,52 @@
 ** @param fd : The file descriptor of the temporary file
 ** @return 0 if success, -1 otherwise
 */
-int	Utils::createTmpFile(std::string &path, int &fd)
-{
-	// path += "XXXXXX";
-	path = "/tmp/webserv_XXXXXX";
-	std::vector<char> tmpPath(path.begin(), path.end());
-	tmpPath.push_back('\0');
+// int	Utils::createTmpFile(std::string &path, int &fd)
+// {
+// 	// path += "XXXXXX";
+// 	path = "/tmp/webserv_XXXXXX";
+// 	std::vector<char> tmpPath(path.begin(), path.end());
+// 	tmpPath.push_back('\0');
 
-	fd = mkstemp(&tmpPath[0]);
-	if (fd == -1)
-	{
-		Logger::log(Logger::ERROR, "[Utils::createTmpFile] Failed to create temporary file");
-		return (-1);
-	}
-	path.assign(tmpPath.begin(), tmpPath.end() - 1);
-	return (0);
-}
+// 	fd = mkstemp(&tmpPath[0]);
+// 	if (fd == -1)
+// 	{
+// 		Logger::log(Logger::ERROR, "[Utils::createTmpFile] Failed to create temporary file");
+// 		return (-1);
+// 	}
+// 	path.assign(tmpPath.begin(), tmpPath.end() - 1);
+// 	return (0);
+// }
+
+int Utils::createTmpFile(std::string &path, int &fd) {
+        static const char letters[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        static const int numLetters = sizeof(letters) - 1;
+        // static const int suffixLength = 6;
+        static const int maxAttempts = 100;
+
+        path = "/tmp/webserv_XXXXXX";
+        std::vector<char> tmpPath(path.begin(), path.end());
+        tmpPath.push_back('\0'); // Ensure null termination
+
+        std::srand(static_cast<unsigned int>(std::time(0))); // Seed RNG
+
+        for (int attempt = 0; attempt < maxAttempts; ++attempt) {
+            // Generate a random 6-character suffix
+            for (size_t i = path.size() - 6; i < path.size(); ++i) {
+                tmpPath[i] = letters[std::rand() % numLetters];
+            }
+
+            // Try creating the file
+            fd = open(&tmpPath[0], O_CREAT | O_EXCL | O_RDWR, 0600);
+            if (fd != -1) { // Success
+                path.assign(tmpPath.begin(), tmpPath.end() - 1);
+                return 0;
+            }
+        }
+
+        Logger::log(Logger::ERROR, "[Utils::createTmpFile] Failed to create temporary file", "");
+        return -1;
+    }
 
 /*
 ** @brief Create a temporary file with a random suffix
@@ -37,7 +99,7 @@ int Utils::createFileRandomSuffix(std::string &path, int &fd)
 	std::vector<char> tmpPath(path.begin(), path.end());
 	tmpPath.push_back('\0');
 
-	fd = mkstemp(&tmpPath[0]);
+	fd = my_mkstemp(&tmpPath[0]);
 	if (fd == -1)
 	{
 		Logger::log(Logger::ERROR, "[Utils::createTmpFile] Failed to create temporary file");
@@ -130,9 +192,9 @@ void printMsg(std::ostream &os, const char *msg, ...)
 	const int initialBufferSize = 1024;
 	std::vector<char> buffer(initialBufferSize);
 
-	va_list args;
+	std::va_list args;
 	va_start(args, msg);
-	int size = vsnprintf(buffer.data(), initialBufferSize, msg, args);
+	int size = std::vsnprintf(buffer.data(), initialBufferSize, msg, args);
 	va_end(args);
 
 	// Handling error
@@ -146,12 +208,14 @@ void printMsg(std::ostream &os, const char *msg, ...)
 	{
 		buffer.resize(buffer.size() * 2);
 		va_start(args, msg);
-		size = vsnprintf(buffer.data(), buffer.size(), msg, args);
+		size = std::vsnprintf(buffer.data(), buffer.size(), msg, args);
 		va_end(args);
 	}
 
 	os << buffer.data() << std::endl;
 }
+
+
 
 /**
  * @brief renvoie true si le dossier existe

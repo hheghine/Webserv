@@ -172,9 +172,9 @@ std::vector<std::string> Response::getAllPathsServer(void)
 
 // GET METHOD ==============================
 
-/**
- * @brief check if the file is a large file
- */
+// /**
+//  * @brief check if the file is a large file
+//  */
 bool Response::isLargeFile(const std::string &path)
 {
 	struct stat fileStat;
