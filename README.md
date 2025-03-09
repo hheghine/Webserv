@@ -10,7 +10,7 @@
     +#+  +:+       +#+            static files from a specified root directory or
   +#+#+#+#+#+   +#+               dynamic content using CGI. It is also able to handle
        #+#    #+#                 multiple client connections concurrently with the help
-      ###   ########.fr           of select().
+      ###   ########.fr           of epoll().
 
                                   June 2024
 ```
